@@ -329,7 +329,7 @@ design challenge of the next phase.
 
 ### What has not changed
 
-**The requirements for good data.** An AI agent that retrieves from poorly
+**Good data requirements have not changed.** An AI agent that retrieves from poorly
 structured, inconsistently described, rights-ambiguous data produces unreliable
 answers. The fundamental requirements — persistent identifiers, structured
 metadata, machine-readable rights expressions, documented coverage and gaps —
@@ -337,8 +337,10 @@ are exactly the same as they have always been. If anything, AI makes the
 consequences of poor data quality more visible, because a confident-sounding
 wrong answer is more damaging than a transparent failure to find anything.
 
-This is where the Digitaal Erfgoed Referentie Architectuur (DERA), the Dutch
-national framework for digital heritage infrastructure, becomes directly relevant.
+This is where the Digitaal Erfgoed Referentie Architectuur (DERA — roughly,
+a national standard for machine-readable heritage data, mandating linked data,
+persistent URIs, and machine-readable rights expressions across Dutch cultural
+institutions), becomes directly relevant.
 DERA defines exactly the technical foundations that make heritage data
 AI-accessible: persistent URIs, linked data publication using RDF and SPARQL,
 machine-readable rights statements via RightsStatements.org, shared terminology
@@ -354,7 +356,11 @@ NDE registration, structured metadata, ASR benchmarking — have been consistent
 aligned with DERA principles. This alignment is not coincidental and not merely
 compliance: it reflects the understanding that these standards exist precisely
 because federated, trustworthy, machine-readable access to heritage data requires
-them. That understanding turns out to be the right preparation for an agent
+them. NISV is represented on the DERA Architecture Council, which means the
+institution has not merely been a recipient of these standards but an active
+participant in shaping them — a position that carries both standing and
+responsibility when it comes to advocating for their consistent application.
+That understanding turns out to be the right preparation for an agent
 layer. The work of the last ten years becomes more important, not less.
 
 The same logic extends to the European level. The common European Data Space for
@@ -385,7 +391,7 @@ is both an institutional obligation and a natural consequence of building the
 agent layer correctly.
 
 
-**The need for transparency and data criticism.** One of the most important
+**Data criticism is more urgent, not less.** One of the most important
 contributions the Media Suite has made to digital humanities practice is the
 vocabulary and tooling for data criticism: understanding how datasets were
 constructed, what decisions shaped them, and how those decisions affect analysis.
@@ -396,7 +402,7 @@ over time. The agent should surface this — not bury it under a confident answe
 Transparency about what the system knows and does not know, and how it knows it,
 is a design requirement, not an optional extra.
 
-**The importance of access control and rights awareness.** The complexity of
+**Access control is not a convenience feature.** The complexity of
 rights and access in a heritage archive does not disappear because the interface
 is more convenient. A researcher asking an AI agent for footage from the Dutch
 Public Broadcaster is still subject to copyright restrictions, SURFconext
@@ -406,7 +412,7 @@ appropriate access paths — not work around them or pretend they do not exist.
 This is not a technical obstacle; it is a legal and ethical requirement that
 defines the trustworthiness of the system.
 
-**The primacy of the research community.** The co-development culture described
+**The research community still has to be in the room.** The co-development culture described
 in Section 2 does not become less important because AI makes some things easier.
 If anything, it becomes more important, because the failure modes of AI systems —
 confident hallucination, vocabulary mismatch, uneven coverage — are less obvious
@@ -639,6 +645,15 @@ working and deployable. It is also the proof of concept for the broader
 architecture: the same pipeline that retrieves from documentation can retrieve
 from collection metadata, publication abstracts, and data stories.
 
+Key implementation decisions from the prototype: text is chunked at approximately
+1500 characters with overlap, chosen based on retrieval quality testing across
+chunk sizes; both semantic search and structured SPARQL queries run in parallel
+with results deduplicated by source URL; top-k is set to 10 with results ranked
+by source authority before synthesis. These parameters are published alongside
+the evaluation results and treated as tunable — the evaluation framework exists
+precisely to detect when they need adjustment as the corpus grows or query
+patterns shift.
+
 ### Visual similarity — VisXP and the work still to be done
 
 The VisXP project, co-financed by CLICKNL, developed visual similarity
@@ -682,19 +697,25 @@ is the coordination work: ensuring that each tool is designed once and shared
 across projects rather than reimplemented per team, and that the tool catalogue
 grows systematically to cover each of the assets described in this section.
 
+One constraint worth naming explicitly: the current OpenShift infrastructure
+operates with GPU VRAM limits (24GB) that constrain which models can run locally.
+The current approach — local embedding via multilingual-e5-large-instruct, with
+generation handled separately — works within these limits. Scaling to larger
+corpora or heavier generation workloads will require either hardware investment
+or a hybrid architecture that uses SURF HPC infrastructure for compute-intensive
+tasks while keeping archival data within institutional control.
+
 ### Summary
 
-The assets described here — speech transcripts, linked data, dataset discovery,
-access control, collection metadata, research publications, documentation, visual
-similarity — are not a wish list. They exist, in varying states of completeness,
-as the product of ten years of deliberate infrastructure work. The agent layer
-described in the rest of this document is built on these foundations. Where assets
-are incomplete — visual similarity not yet in production, AAI not yet granular,
-publication ingestion not yet systematic — the gaps are identified and the path
-forward is clear. The question is not whether the infrastructure is ready for
-an agentic layer. It largely is. The question is whether the institutional
-commitment exists to connect these assets deliberately, maintain them sustainably,
-and evaluate them honestly.
+None of this is hypothetical. The infrastructure exists — in varying states of
+completeness, but it exists. The agent layer does not need to be built from
+scratch; it needs to be connected, coordinated, and evaluated honestly. The
+gaps — visual similarity still at prototype, authorisation still binary, publication
+ingestion still ad hoc — are real, and they are named here because pretending
+they are not there would make the architecture less credible, not more. The
+question is not whether the foundation is right. It is. The question is whether
+the institutional commitment exists to finish what ten years of work has made
+possible.
 ## Section 5 — The architectural vision: from pipelines to agents
 
 The Media Suite today is a set of interfaces for humans. A researcher logs in,
@@ -748,18 +769,19 @@ integration code. Each capability becomes an MCP server, exposing a set of named
 tools with defined inputs and outputs. The agent is an MCP client, calling
 whichever servers are registered and relevant.
 
-For the Media Suite, the MCP architecture means:
+For the Media Suite, the implication is concrete. Each capability becomes a
+named, callable tool:
 
-- The Elasticsearch search becomes an MCP tool: `search_archive(query, filters)`
-- The SPARQL endpoint becomes an MCP tool: `query_knowledge_graph(sparql_template, parameters)`
-- The NDE Dataset Register becomes an MCP tool: `find_datasets(institution, license, format)`
-- The vector retrieval index becomes an MCP tool: `semantic_search(query, collection)`
-- The visual similarity index becomes an MCP tool: `find_visually_similar(image_or_description)`
-- The documentation knowledge base becomes an MCP tool: `ask_media_suite(question)`
-- The access control layer becomes an MCP tool: `check_access(dataset, user_context)`
+- The Elasticsearch search: `search_archive(query, filters)`
+- The SPARQL endpoint: `query_knowledge_graph(sparql_template, parameters)`
+- The NDE Dataset Register: `find_datasets(institution, license, format)`
+- The vector retrieval index: `semantic_search(query, collection)`
+- The visual similarity index: `find_visually_similar(image_or_description)`
+- The documentation knowledge base: `ask_media_suite(question)`
+- The access control layer: `check_access(dataset, user_context)`
 
-Each tool is built once, maintained independently, and shared across any
-application that needs it — not just the Media Suite chatbot. A future CLARIAH
+Each tool is built once and shared across any application that needs it — not
+just the Media Suite chatbot. A future CLARIAH
 tool, a researcher's own local agent, a journalistic application — all can use
 the same MCP servers without requiring new integration work. This is the
 architecture that turns a collection of project-specific implementations into
@@ -829,14 +851,16 @@ query both layers to find what exists and what is usable. At the European level,
 NDE feeds into the common European Data Space for Cultural Heritage, connecting
 Dutch heritage to DS4CH and making it discoverable across the continent.
 
-The actual situation is more awkward. NISV currently contributes content to
-Europeana via EUscreen — the European television archives domain aggregator —
-bypassing NDE entirely. Open Beelden content appears on Europeana through a
-separate route. Neither path goes through the national infrastructure that is
-supposed to serve as the connective layer. The result is a paradox: NISV
-content is findable at the European level through a route that makes it
-invisible at the national level, and an agent querying NDE would not reliably
-find it.
+The actual situation reflects a transition that has not yet completed. NISV
+currently contributes content to Europeana via EUscreen — the European television
+archives domain aggregator — a route established before NDE existed as a mature
+publication layer. Open Beelden content reaches Europeana through a separate
+route. Neither path currently goes through NDE. The practical consequence for
+an agent is significant: querying NDE gives an incomplete picture of what NISV
+holds and what is accessible, because the national layer has not yet been
+populated with the authoritative descriptions that should flow through it. This
+is not a permanent state — it is the gap that the current infrastructure work
+is designed to close, starting with Open Beelden.
 
 At the national level, the Media Suite's local registry — currently implemented
 in CKAN — became a mess over time precisely because no strict policy governed
@@ -846,12 +870,15 @@ to register in NDE first. The result is a registry that partially overlaps with
 NDE but is not derived from it — making it unreliable as a foundation for
 automated discovery.
 
-This is not a failure of technology. NDE, CKAN, and the relevant standards have
-existed for years. It is a failure of governance: no institution made the
-sustained commitment to enforce the chain. The promise of linked data federation
-has been made in the heritage sector since the early 2010s, and it has
-consistently underdelivered because completing the chain requires ongoing
-institutional discipline, not a one-time technical implementation.
+This is not a failure of technology, and it is not a failure of NDE. The
+standards, the register, and the network facilities have existed and been
+maintained. It is a failure of institutional follow-through: individual
+institutions — including NISV — did not consistently complete the chain from
+their own data to the national infrastructure. The promise of linked data
+federation has been made in the heritage sector since the early 2010s, and it
+has consistently underdelivered because completing the chain requires ongoing
+institutional discipline at the data provider level, not just the provision of
+shared infrastructure.
 
 The agentic architecture makes the cost of this failure more visible than it has
 ever been. An agent that confidently queries NDE and returns an incomplete picture
@@ -881,10 +908,15 @@ The right architectural response to this is federation — a network of speciali
 agents, each with deep knowledge of its own domain, that can be coordinated by a
 higher-level agent. The Media Suite agent knows the Sound & Vision collection
 intimately: its coverage, its access conditions, its ASR transcripts, its linked
-data. The DANS agent knows the oral history collections. The KB agent knows the
-newspaper archive. A CLARIAH-level coordinating agent — sitting at clariah.nl,
-or eventually embedded in what INEO currently tries to be as a portal — can
-query all of them and synthesise across their responses.
+data. The DANS agent knows the oral history collections and is already developing
+data access infrastructure via SSHOC-NL. The KB agent knows the newspaper archive
+and is building towards machine-queryable access to its collections. The EYE
+Filmmuseum contributes film heritage. A CLARIAH-level coordinating agent —
+sitting at clariah.nl, or eventually replacing what INEO currently tries to be
+as a portal — can query all of them and synthesise across their responses. The
+Media Suite is not doing this alone; it is building one component of a shared
+architecture that several CLARIAH institutions are developing in parallel,
+each from their own domain.
 
 This is not the same as building a single monolithic CLARIAH research application.
 That approach has been tried in various forms and consistently fails: the
@@ -897,12 +929,14 @@ CLARIAH agent about newspaper coverage gets an answer sourced from the KB agent'
 own authoritative knowledge. If the KB agent does not know something, it says so —
 the CLARIAH agent does not fabricate an answer on its behalf.
 
-INEO's role in this architecture is as a catalogue, not a portal. It is the
-human-readable and machine-queryable registry of what tools, datasets, workflows,
-and educational materials exist across CLARIAH — the map that a coordinating
-agent can query to find out which specialised agents exist and what they cover.
-This is a more sustainable and more accurate role for INEO than trying to present
-a unified surface over heterogeneous data it does not control.
+INEO's role in this architecture should be as a catalogue, not a portal. Its
+current incarnation as a unified discovery surface over heterogeneous,
+differently-governed collections has not delivered on its promise — the
+institutional complexity underneath does not disappear because there is a
+unified interface on top. As a machine-queryable registry of what tools,
+datasets, workflows, and educational materials exist across CLARIAH — the map
+that a coordinating agent queries to find which specialised agents exist and
+what they cover — it would be both more accurate and more sustainable.
 
 The Media Suite's identity in this federated architecture is clear: it remains a
 research environment with its own interface, tools, and community of researchers
@@ -994,7 +1028,13 @@ is the design choice that makes the system trustworthy for research use.
 
 **Transparency about uncertainty.** When retrieval confidence is low — when
 the agent cannot find relevant material, or finds conflicting information, or
-reaches the boundary of what the knowledge base covers — it says so. An answer
+reaches the boundary of what the knowledge base covers — it says so. Technically,
+this means implementing confidence thresholds: when the top-k retrieved results
+are semantically distant from the query, the agent falls back to an explicit
+acknowledgment rather than synthesising a confident answer from weak evidence.
+This corrective retrieval approach is built into the evaluation framework from
+the start — low-confidence responses are flagged, reviewed, and used to improve
+both the knowledge base coverage and the retrieval configuration. An answer
 that acknowledges its own limits is more useful to a researcher than a confident
 answer that conceals them.
 
@@ -1183,12 +1223,12 @@ frustration is over, that the architecture is right, and that the institutional
 commitment is real. It is a small dataset by any measure. What it proves is not.
 ## Section 7 — The vision is already being built
 
-The architectural vision described in Sections 4 and 5 is sometimes presented
-in documents like this as a proposal for future work. This section makes a
-different claim: every major component of the architecture is already under
-active development, across multiple funded projects, by the same team. The white
-paper is not a proposal. It is the frame that connects what the team is already
-doing.
+The previous sections describe an architectural vision. This section makes a
+specific claim about it: every major component is already under active
+development, across multiple funded projects, by the same team. This is not a
+proposal for future work. It is a description of work in progress, seen from
+a vantage point that the individual projects do not have — because each project
+sees its own piece, not the whole.
 
 The table below maps the five components the architecture requires to the
 projects and tasks currently building them. The detail behind each mapping is
@@ -1218,14 +1258,20 @@ defined: `embed_text`, `query_archive`, `query_milvus`. An Agent API with the
 main orchestration logic is in active development, with a full prototype expected
 by end of Q2 2026 and suitable for initial user testing.
 
-The embedding model chosen — `multilingual-e5-large-instruct` — handles Dutch
-and English in the same vector space, which matters for a corpus spanning decades
-of Dutch-language broadcasting queried by an international research community.
+The embedding model chosen — `multilingual-e5-large-instruct` — was selected
+based on multilingual retrieval benchmarks (MTEB) and tested against Dutch-language
+heritage content. It handles Dutch and English in the same vector space, which
+matters for a corpus spanning decades of Dutch-language broadcasting queried by
+an international research community, and outperformed alternatives on the
+domain-specific evaluation set used during prototype development.
 
 The Frozen Sets concept — user-defined, topic-scoped subsets of Media Suite
 content that can be embedded and queried independently via RAG — is confirmed
 in scope. A researcher defines a dataset by specifying a topic, time period,
 and collection scope; the system makes it queryable as its own agent. This
+connects to current work in the CLARIAH community on FAIR reuse of SPARQL
+queries — making query definitions citable, versioned, and reusable artifacts
+in their own right, not just ephemeral search inputs. This
 points toward improved reproducibility — a Frozen Set is more than a saved
 search result in that it captures the corpus definition explicitly, making it
 easier to re-run analyses on a defined subset. Whether it fully solves the
@@ -1239,6 +1285,14 @@ address this. It is a step in the right direction — and a useful one — but
 the full reproducibility challenge requires versioned collections and citable
 data snapshots, which is a harder infrastructure problem that deserves separate
 attention.
+
+The current prototype measures end-to-end query latency at 2–4 seconds for
+documentation retrieval on a single-user basis — acceptable for an orientation
+tool, though multi-user load testing under realistic conditions has not yet been
+conducted. Scaling to the full AV corpus will require profiling the Milvus index
+performance at larger vector counts and assessing whether the OpenShift GPU
+allocation remains sufficient or whether SURF HPC infrastructure needs to be
+brought in for heavier workloads. These are known unknowns, not surprises.
 
 Two gaps are worth naming explicitly. First, a human-verified evaluation set
 for the agent does not yet exist. The approach that has proven effective for
@@ -1283,7 +1337,12 @@ The NDE Dataset Register is already publicly queryable via SPARQL — no
 authentication required, no new infrastructure needed. An agent tool that
 queries the register can tell a researcher what datasets exist nationally,
 what their rights are, and how to access them. This is a working agent tool
-today.
+today. The NDE Termennetwerk — federated search across Dutch heritage
+terminology sources, including the GTAA thesaurus — is also live and queryable,
+providing the shared vocabulary layer that makes cross-institutional entity
+resolution possible. The NDE Knowledge Graph, which aggregates and connects
+heritage information across participating institutions, is likewise operational.
+These are not aspirations; they are infrastructure the agent can use now.
 
 What is not yet working is NISV's contribution to that register. As described
 in Section 5, NISV currently contributes to Europeana via EUscreen, bypassing
@@ -1299,20 +1358,27 @@ The policy is: new datasets follow the chain. Open Beelden is first.
 ### The knowledge graph
 
 INFINITY is a Horizon Europe knowledge graph project for cultural heritage data,
-in its first year of preparation in 2026. Its Use Case Requirements and Design
-work package (WP5) and Ethics and Design work package (WP8) are both active in
-2026 — precisely when the prototype knowledge graph built alongside this white
-paper provides concrete evidence about what entity models and query patterns are
-needed and what failure modes arise in practice.
+in its first year of preparation in 2026. The Media Suite's contribution is as
+an active partner, not a passive consumer: providing a working AV heritage
+test environment, contributing to the Use Case Requirements (WP5) and Ethics
+and Design (WP8) work packages with evidence from the prototype work, and
+aligning the entity model and SPARQL query catalogue with the ontology design
+patterns INFINITY develops for cross-institutional knowledge graphs.
 
 The prototype knowledge graph — 1057 triples across five entity types, eleven
-named SPARQL query templates, deterministic embedding-based routing — is a
-working proof of concept for what INFINITY will build at production scale. The
-Media Suite's existing linked data assets — the GTAA thesaurus connections,
-the Wikidata linkages, the data.beeldengeluid.nl SPARQL endpoint — position
-NISV as a contributor with substantial existing structured data, not a passive
-participant. Articulating that contribution concretely, ahead of the next INFINITY
-project meeting, is a near-term priority.
+named SPARQL query templates, deterministic embedding-based routing — is
+intended as an integrated test bed for INFINITY research outcomes: a real
+heritage collection, with real query patterns, surfacing the entity models and
+failure modes that production-scale knowledge graph design needs to address.
+The Media Suite's existing linked data assets — the GTAA thesaurus connections,
+the Wikidata linkages, the data.beeldengeluid.nl SPARQL endpoint — provide
+INFINITY with a working Dutch AV heritage environment to validate against,
+not just a theoretical use case. Aligning the prototype's entity model with
+established ontology design patterns (ODPs) — particularly for events, agents,
+and temporal relationships in AV heritage — is a concrete contribution the
+Media Suite team can make to INFINITY's shared knowledge graph design.
+Articulating that contribution concretely, and ensuring active participation
+in the relevant INFINITY work packages, is a near-term priority.
 
 ### The applied user scenarios
 
@@ -1393,12 +1459,12 @@ the temptation to build parallel wrappers per project, and to bring in people
 from across the institute — on the data, legal, and rights dimensions — who
 need to be involved for each capability to work correctly.
 
-**The Open Beelden ASR organisational question.** Having ASR transcripts for
-all Open Beelden content is technically feasible — the pipeline exists. The
-question is organisational: who coordinates running it across the full collection,
-including the non-B&G sub-collections, and by when. This is an internal
-coordination task rather than a technical challenge, and it needs a named owner
-and a delivery date before the dataset agent can be fully operational.
+**The Open Beelden ASR completion.** Having ASR transcripts for all Open Beelden
+content is technically feasible — the pipeline exists. The question is one of
+prioritisation and resource allocation: who coordinates running it across the
+full collection, including the non-B&G sub-collections (Natuurbeelden, VPRO, EYE,
+Yad Vashem), and by when. This needs a named owner and a delivery date before
+the dataset agent can be fully operational.
 
 ### The summary argument
 
@@ -1513,41 +1579,36 @@ not sustainable.
 
 ### Phase 5 — Knowledge graph at scale and CLARIAH federation
 
-Integration with the INFINITY knowledge graph project, expanding the entity
-model and SPARQL query catalogue to production scale. The first connection to
-a CLARIAH-level coordinating agent — a researcher on clariah.nl asking a
-cross-media question that the Media Suite agent answers as one component of
-the response.
+The INFINITY project provides the production-scale knowledge graph. The NDE
+register, properly populated by phases 2 and 3, is the catalogue a CLARIAH-level
+coordinating agent can query. The Media Suite agent becomes one component in a
+federated network — the first time the architecture described in Section 5 is
+actually tested at scale rather than demonstrated in a prototype.
 
-The NDE register, properly populated by phases 2 and 3, is the catalogue the
-coordinating agent queries. INEO plays its natural role as the human-readable
-and machine-queryable map of CLARIAH tools and datasets.
+Whether a CLARIAH coordinating agent actually exists by this point, or whether
+it is being built in parallel, is an open question. What is not open is that
+the Media Suite's MCP tools need to be ready for it — callable by any agent,
+not just the one we build ourselves.
 
-### Phase 6 — User evaluation and iteration
+### Phase 6 — Real users, real feedback
 
-Structured evaluation with real researchers across multiple user groups:
-academic researchers, research journalists, educators, and — via the Open
-Beelden public interface — the general public. Evaluation results are published
-openly and drive the next iteration of both the knowledge base content and the
-retrieval architecture.
+Structured evaluation with researchers who were not involved in building the
+system. This is where the architecture either proves itself or reveals its
+assumptions. The evaluation framework built in phases 1 and 2 is the scaffold;
+the researchers are the test. Published results, updated as the system improves,
+honest about failure modes. The open question here is not technical — it is
+whether the evaluation discipline is maintained when the results are
+uncomfortable.
 
-This phase is not an endpoint. It is the beginning of the continuous evaluation
-practice that makes the system trustworthy over time. The evaluation framework
-built in phases 1 and 2 scales to cover new datasets, new user groups, and
-new question types as they emerge.
+### Phase 7 — The model becomes available
 
-### Phase 7 — Expansion beyond the Media Suite
-
-As the architecture matures and the evaluation evidence accumulates, the
-infrastructure — the MCP servers, the evaluation framework, the NDE chain
-governance — becomes available to other CLARIAH components and other heritage
-institutions. The dataset agent model, proven on Open Beelden and the television
-news collection, becomes the reference implementation for any institution that
-wants to make a dataset AI-queryable within the CLARIAH ecosystem.
-
-This is not a separate project — it is what happens when phases 1 through 6
-work as described. The infrastructure does not need to be redesigned for
-other institutions; it needs to be documented, maintained, and governed.
+When the dataset agent approach is working for two or three NISV collections,
+other institutions will want to use the same model. This is not a separate
+project; it is the consequence of doing the earlier work well and documenting it
+honestly. The NDE chain, the MCP server design, the evaluation framework — these
+become a reference implementation. Whether CLARIAH or NDE takes ownership of
+maintaining and promoting that reference is a governance question that phase 7
+will force into the open.
 
 ### Key dependencies and risks
 
@@ -1641,6 +1702,13 @@ skills. This role needs to be filled.
 
 For the team reading this document, the priorities translate into concrete
 next steps:
+
+These priorities require trade-offs. Not everything currently in the backlog
+can proceed at the same pace. The evaluation framework and MCP coordination are
+coordination investments that pay dividends across all projects — which is
+precisely why they justify deprioritising some project-specific feature work to
+make room. Naming that trade-off explicitly is part of what makes the priorities
+credible.
 
 **Immediately:**
 - Confirm a named owner for the Open Beelden ASR completion, with a delivery
