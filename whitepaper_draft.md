@@ -483,3 +483,1264 @@ the infrastructure, speed up orientation for researchers who are familiar with
 it, and make the Media Suite's capabilities more visible and discoverable to
 users who do not yet know what is possible. That is a significant improvement.
 It is also a bounded one.
+## Section 4 — What we already have: the infrastructure assets
+
+Section 3 argued that the AI revolution changes the interface fundamentally but
+changes almost nothing about the underlying requirements for good data. This
+section takes stock of what the Media Suite already has — the infrastructure
+assets that an agentic system needs and that years of careful work have put in
+place. The inventory is not exhaustive, but it is intended to be honest: each
+asset is described as it actually is, including where it remains incomplete or
+requires further investment to reach its potential.
+
+The organising principle is simple: for each asset, what does it enable for an
+agent that could not be done without it?
+
+### Speech transcripts with timecodes — Elasticsearch
+
+The Media Suite's Elasticsearch index contains ASR transcripts for large portions
+of the Sound & Vision archive, indexed with timecodes at the sentence and word
+level. This is the single most powerful asset for an agent working with
+audiovisual heritage, because it transforms the spoken content of broadcasts into
+searchable, queryable text — and crucially, text that is anchored to specific
+moments in time.
+
+For an agent, this means two things. First, semantic search over spoken content:
+a researcher asking about the representation of a topic in Dutch television news
+can retrieve relevant fragments based on what was actually said, not just how
+the programme was catalogued. Second, and not yet fully exploited, temporal deep
+links: every retrieved passage has a start and end time, which means every answer
+the agent gives about spoken content can point the researcher to the exact moment
+in the broadcast rather than to the programme as a whole. This capability — stable,
+citable references to specific fragments of audiovisual content — is what fragment
+citation means in practice, and it is already technically present in the data.
+
+Priority has been given to radio programmes, Oral History interviews, and news
+and current affairs genres — the content most requested for research and hardest
+to search without transcripts. The goal of full coverage remains ahead, but the
+foundation is substantial and growing.
+
+### Linked data and SPARQL — data.beeldengeluid.nl
+
+The data platform at data.beeldengeluid.nl publishes collection metadata as
+linked data, accessible via a SPARQL endpoint. This is structured, queryable
+knowledge about the collections — not just a search index but a graph of entities
+and relationships: programmes, people, organisations, events, genres, time
+periods, and the connections between them.
+
+For an agent, a SPARQL endpoint is a precision instrument. Where semantic search
+over text is good at finding relevant material when the query is fuzzy or
+natural-language, SPARQL is good at answering precise relational questions: which
+programmes feature a specific person in a specific role, across which time period,
+in which genre. The named SPARQL query patterns already developed in the prototype
+work — covering tools, collections, workflows, access conditions — demonstrate
+what is possible at small scale. The data.beeldengeluid.nl endpoint makes the
+same approach available at collection scale.
+
+The linked data also carries rights information, connecting to the Open Beelden
+dataset and the broader NDE infrastructure. An agent that can query rights status
+via SPARQL before presenting content to a researcher is doing something
+qualitatively different from one that presents everything and leaves rights
+navigation to the user.
+
+### The NDE Dataset Register and Termennetwerk
+
+NISV datasets are registered in the NDE Dataset Register, the national catalogue
+of Dutch digital heritage collections. The register is publicly queryable via a
+SPARQL endpoint — no authentication required — and returns DCAT-structured
+metadata: what datasets exist, who manages them, what their access conditions
+are, what distribution formats are available.
+
+For an agent, the NDE register is the map. It answers the question "what exists
+and how can I reach it?" not just for NISV collections but for Dutch digital
+heritage more broadly. An agent tool that queries the register can tell a
+researcher which collections across multiple institutions are relevant to their
+question — before any content-level retrieval happens. This is discovery at the
+national level, and it is already queryable today.
+
+The Termennetwerk — the federated search across Dutch heritage terminology
+sources — complements the register by providing shared vocabulary. When a
+researcher uses a term, the agent can resolve it against the Termennetwerk to
+find canonical forms, related terms, and broader/narrower concepts across the
+GTAA thesaurus, Wikidata, and other sources. This is the disambiguation layer
+that makes cross-collection search reliable rather than keyword-dependent.
+
+### SURFconext, SANE, and the Data Access Broker
+
+The access control infrastructure — SURFconext for authentication, SRAM for
+role-based authorisation, SANE for trusted analysis environments, and the Data
+Access Broker (DAB) being developed with SURF — is the layer that makes
+rights-aware agentic access possible for restricted collections.
+
+An agent that can verify a researcher's institutional affiliation via SURFconext,
+check their access entitlements via SRAM, and route sensitive dataset requests
+through the DAB to a SANE environment is doing something that most AI systems
+cannot: respecting the access conditions of restricted heritage data rather than
+working around them. This is not a constraint on what the agent can do; it is
+what makes it trustworthy enough to use with restricted material.
+
+The current state of AAI is binary — SURFconext confirms that a logged-in user
+is affiliated with a Dutch research institution, but does not yet distinguish
+between institutions or grant granular access based on specific dataset agreements.
+SRAM adds the group and role layer that makes finer-grained authorisation possible.
+This infrastructure is being built and refined; it is not yet complete, but the
+direction is right and the investment is ongoing.
+
+### The Collection Inspector and Dataset Archaeology tooling
+
+The Collection Inspector gives researchers — and agents — structured access to
+metadata about the metadata: what fields exist in a collection, what their
+coverage is, how completeness varies over time. Dataset Archaeology extends this
+to the historical decisions that shaped a collection: digitisation initiatives,
+changes in cataloguing policy, the introduction of thesaurus terms, metadata
+fractures.
+
+For an agent, this tooling is the source of the critical context that distinguishes
+a trustworthy answer from a confident but misleading one. An agent that can tell
+a researcher "ASR coverage for this collection drops significantly before 1980"
+or "the genre metadata for this period reflects a cataloguing change in 2004" is
+providing the kind of methodological grounding that the Collection Inspector was
+built to support. The challenge is making this information available to the agent
+in a queryable form — which is an engineering task, not a conceptual one.
+
+### The research community and 400+ publications
+
+The Zotero library of CLARIAH WP5 publications — over 400 papers, presentations,
+and tutorials produced by researchers working with or about the Media Suite — is
+a knowledge base in its own right. It documents what research questions have been
+asked, what methods have been used, what collections have been studied, and what
+findings have emerged. For a researcher starting a new project, knowing that
+others have worked on similar questions with similar data is enormously valuable
+orientation.
+
+This corpus is already partially ingested in the prototype knowledge base
+developed alongside this white paper. The challenge is systematic coverage:
+identifying which publications describe Media Suite use, extracting the relevant
+methodology and dataset information, and making it retrievable by the agent.
+The DOI-based pipeline for publication ingestion is one of the near-term
+additions planned for the knowledge base.
+
+### Documentation — Help, How-to, FAQ, tutorials, data stories
+
+The Media Suite's documentation — the Help section, How-to guides, FAQ, tutorials
+available via the Learn menu, and the Data Stories corpus — represents a
+substantial body of knowledge about how to use the infrastructure, what it can do,
+and what researchers have done with it. This documentation was the starting point
+for the prototype work described in this white paper: the first knowledge base
+was built entirely from the Jekyll source of the mediasuite-website repository,
+producing over 10,000 deduplicated chunks covering all documentation collections.
+
+The retrieval evaluation on this knowledge base reached 86–100% Hit@10 on a
+structured test set of researcher questions, demonstrating that the documentation
+is well-suited to semantic retrieval. This is the "Ask Media Suite" capability
+described in the introduction — a chatbot that answers researcher questions by
+retrieving from the actual documentation, not from general knowledge. It is
+working and deployable. It is also the proof of concept for the broader
+architecture: the same pipeline that retrieves from documentation can retrieve
+from collection metadata, publication abstracts, and data stories.
+
+### Visual similarity — VisXP and the work still to be done
+
+The VisXP project, co-financed by CLICKNL, developed visual similarity
+capabilities for the Sound & Vision archive: shot-level embeddings that allow
+researchers to find visually similar content given an example image or video
+frame. This work produced real infrastructure — embeddings computed, a similarity
+search prototype demonstrated, the technical pipeline established.
+
+It is frustrating that this remains at a prototype level. The ground work is done.
+The embeddings exist or can be recomputed. What is needed is focused attention to
+move from prototype to production: integrating the visual similarity index into
+the agent tool set alongside the text-based Elasticsearch and SPARQL tools, so
+that a researcher can ask "find me footage that looks like this" and get a
+grounded, source-linked answer. Visual similarity is the capability that most
+clearly demonstrates the multimodal potential of the archive — and it is the one
+that most clearly distinguishes the Media Suite from text-only AI systems. CLIP
+embeddings, which represent images and text in the same vector space and enable
+genuinely cross-modal queries, are the natural next step: embedding a textual
+description and finding visually similar content, or embedding an image and
+finding thematically related spoken content.
+
+The path from here to there is not long. It requires dusting off the VisXP work,
+assessing the current state of the embeddings and index, and making a focused
+investment to bring the capability to a state where it can be exposed as an agent
+tool. The Open Beelden dataset — with its open license and manageable scale — is
+the right place to do this first.
+
+### The MCP server in development
+
+Finally, and connecting all of the above: an MCP (Model Context Protocol) server
+is already under active development as part of the AI experimentation work. MCP
+is the open standard that allows AI agents to call tools through a consistent
+interface — the protocol layer that turns each of the assets above into something
+an agent can invoke. Tools already defined include `embed_text`, `query_archive`,
+and `query_milvus`. The Elasticsearch search, SPARQL queries, and vector retrieval
+are all being exposed as agent-callable tools through this server.
+
+This is significant because it means the agent architecture is not being built
+from scratch. The connective tissue is already being put in place. What remains
+is the coordination work: ensuring that each tool is designed once and shared
+across projects rather than reimplemented per team, and that the tool catalogue
+grows systematically to cover each of the assets described in this section.
+
+### Summary
+
+The assets described here — speech transcripts, linked data, dataset discovery,
+access control, collection metadata, research publications, documentation, visual
+similarity — are not a wish list. They exist, in varying states of completeness,
+as the product of ten years of deliberate infrastructure work. The agent layer
+described in the rest of this document is built on these foundations. Where assets
+are incomplete — visual similarity not yet in production, AAI not yet granular,
+publication ingestion not yet systematic — the gaps are identified and the path
+forward is clear. The question is not whether the infrastructure is ready for
+an agentic layer. It largely is. The question is whether the institutional
+commitment exists to connect these assets deliberately, maintain them sustainably,
+and evaluate them honestly.
+## Section 5 — The architectural vision: from pipelines to agents
+
+The Media Suite today is a set of interfaces for humans. A researcher logs in,
+navigates to the search tool, constructs a query, applies filters, opens items
+in the Resource Viewer, saves bookmarks, creates annotations, runs a Jupyter
+Notebook. Each step requires the researcher to know what tool to use, how to use
+it, and how to interpret what comes back. The infrastructure supports the
+researcher; it does not yet act on their behalf.
+
+The shift this section describes is from a set of tools that researchers operate
+to a set of capabilities that an agent can orchestrate — on the researcher's
+behalf, in response to a question asked in natural language, drawing on whichever
+combination of tools and data sources is relevant. The tools themselves do not
+change. What changes is the layer of coordination above them.
+
+### From pipelines to tools
+
+In the current architecture, a researcher's interaction with the Media Suite
+follows a fixed sequence determined by the interface: search, then filter, then
+view, then annotate, then export. This is a pipeline: a predetermined path through a set of
+capabilities. Pipelines are efficient for well-understood workflows, but they
+break down when a researcher's question does not fit the path — when answering
+it requires combining results from multiple collections, consulting documentation,
+checking access conditions, and cross-referencing prior research, all in a
+sequence determined by the question rather than by the interface design.
+
+The agentic architecture replaces the fixed pipeline with a reasoning loop. Each
+Media Suite capability — keyword search over Elasticsearch, SPARQL queries over
+the linked data endpoint, semantic retrieval from the vector index, rights status
+lookup, documentation retrieval — becomes a *tool* that the agent can call. The
+agent decides which tools to call, in what order, based on what the question
+requires. It can call the same tool multiple times with different parameters, 
+evaluate whether the results are sufficient, and try a different approach if they
+are not.
+
+This is not a small change. It means that the researcher's entry point is no
+longer a search box or a tool menu — it is a question. And the question can be
+as complex as the research problem requires.
+
+### MCP: the connective protocol
+
+For the agent layer to work, each capability needs to be exposed through a
+consistent interface that the agent can call without knowing the internal
+implementation details of the underlying system. This is what the Model Context
+Protocol (MCP) provides.
+
+MCP is an open protocol, developed by Anthropic and now widely adopted, that
+defines how AI agents connect to external tools and data sources. It works like
+HTTP for AI: a standard that allows any agent to talk to any tool without custom
+integration code. Each capability becomes an MCP server, exposing a set of named
+tools with defined inputs and outputs. The agent is an MCP client, calling
+whichever servers are registered and relevant.
+
+For the Media Suite, the MCP architecture means:
+
+- The Elasticsearch search becomes an MCP tool: `search_archive(query, filters)`
+- The SPARQL endpoint becomes an MCP tool: `query_knowledge_graph(sparql_template, parameters)`
+- The NDE Dataset Register becomes an MCP tool: `find_datasets(institution, license, format)`
+- The vector retrieval index becomes an MCP tool: `semantic_search(query, collection)`
+- The visual similarity index becomes an MCP tool: `find_visually_similar(image_or_description)`
+- The documentation knowledge base becomes an MCP tool: `ask_media_suite(question)`
+- The access control layer becomes an MCP tool: `check_access(dataset, user_context)`
+
+Each tool is built once, maintained independently, and shared across any
+application that needs it — not just the Media Suite chatbot. A future CLARIAH
+tool, a researcher's own local agent, a journalistic application — all can use
+the same MCP servers without requiring new integration work. This is the
+architecture that turns a collection of project-specific implementations into
+shared infrastructure.
+
+An MCP server is already under active development as part of the current AI
+experimentation work, with tools for embedding, archive querying, and vector
+retrieval already defined. The path forward is to expand this server systematically
+to cover the full tool catalogue described above, ensuring each tool is designed
+for reuse rather than for a single application.
+
+### What the agent does — a concrete scenario
+
+The migration research question from Section 1 — *I am studying the representation
+of migration in Dutch television news over the last fifty years — where do I start,
+what is available, how have others approached this, and what can I access?* —
+illustrates what the agent can do when the tool catalogue is in place.
+
+The agent receives the question and reasons about what is needed. It queries
+the NDE Dataset Register to identify which collections cover Dutch television news
+over the relevant time period — not just NISV collections, but any registered
+dataset nationally. It queries the Media Suite's own collection registry to
+determine which of those datasets are currently indexed and queryable within the
+research environment. It queries the knowledge graph for structured facts: temporal
+coverage, genre distribution, ASR availability, access conditions. It checks the
+researcher's access context to determine what is immediately accessible and what
+requires a different route. It runs semantic search over ASR transcripts to find
+programmes where migration was actually discussed, not just catalogued as a
+subject. It queries the publications knowledge base for how other researchers have
+approached the question.
+
+It synthesises all of this into a structured response: here are the relevant
+collections, here is what you can access now and how to request what you cannot,
+here is what others have found, here are the most relevant programmes to start
+with, and here is the documentation that will help you proceed.
+
+Every claim is linked to its source. The researcher can follow any link, go
+deeper, or challenge the framing. The agent has oriented the researcher within
+the infrastructure — with situational awareness that previously required
+institutional expertise or hours of exploration — without doing the research
+itself.
+
+After this orientation, the researcher typically moves into the Media Suite's
+familiar interface: searching within a specific collection, opening items in the
+Resource Viewer, building annotations, running a Jupyter Notebook. The agent
+does not replace this workflow. It is most useful at specific moments: at the
+start of a project, when the researcher does not know where to begin; at
+transitions, when a new tool or collection is needed; and when stuck, when a
+search is returning too little or too much. In between, the researcher works as
+before. The agent is a companion with deep institutional knowledge, not a
+replacement for the research process.
+
+### The registry chain — and why it has to be fixed
+
+The scenario above makes one assumption that is not yet true and needs to be
+stated plainly: it assumes that querying the NDE Dataset Register gives a
+reliable, complete picture of what datasets exist in Dutch digital heritage,
+and that querying the Media Suite's local registry gives a reliable picture of
+what is actually available for research there. Neither assumption currently holds,
+and the gap between them is a structural problem that has accumulated over years.
+
+The intended chain runs like this: data providers register their datasets in the
+NDE Dataset Register with DCAT metadata and ODRL rights expressions; the Media
+Suite harvests from NDE to populate its local collection registry, adding
+integration-specific details about indexing and access; researchers and agents
+query both layers to find what exists and what is usable. At the European level,
+NDE feeds into the common European Data Space for Cultural Heritage, connecting
+Dutch heritage to DS4CH and making it discoverable across the continent.
+
+The actual situation is more awkward. NISV currently contributes content to
+Europeana via EUscreen — the European television archives domain aggregator —
+bypassing NDE entirely. Open Beelden content appears on Europeana through a
+separate route. Neither path goes through the national infrastructure that is
+supposed to serve as the connective layer. The result is a paradox: NISV
+content is findable at the European level through a route that makes it
+invisible at the national level, and an agent querying NDE would not reliably
+find it.
+
+At the national level, the Media Suite's local registry — currently implemented
+in CKAN — became a mess over time precisely because no strict policy governed
+how datasets entered it. Some came via NDE. Many came via direct arrangements
+with data providers who had neither the resources nor the immediate incentive
+to register in NDE first. The result is a registry that partially overlaps with
+NDE but is not derived from it — making it unreliable as a foundation for
+automated discovery.
+
+This is not a failure of technology. NDE, CKAN, and the relevant standards have
+existed for years. It is a failure of governance: no institution made the
+sustained commitment to enforce the chain. The promise of linked data federation
+has been made in the heritage sector since the early 2010s, and it has
+consistently underdelivered because completing the chain requires ongoing
+institutional discipline, not a one-time technical implementation.
+
+The agentic architecture makes the cost of this failure more visible than it has
+ever been. An agent that confidently queries NDE and returns an incomplete picture
+is worse than no agent at all — it produces a confident wrong answer at scale.
+This is why the Open Beelden commitment matters beyond its immediate scope: it is
+the first time the chain will be completed properly, with governance enforced, for
+a real NISV dataset. The full chain: NISV publishes to NDE with correct DCAT
+and ODRL metadata; the Media Suite local registry harvests from NDE and adds
+integration details; the Media Suite index makes it queryable for research;
+DS4CH/Europeana ingests from NDE — not via a parallel aggregator route. When that chain works for Open Beelden, it becomes
+the model for every subsequent dataset. And when an agent queries NDE and finds
+Open Beelden properly described there, it will for the first time be able to
+give a researcher a complete and accurate answer about what that dataset contains,
+who can access it, and how.
+
+### Federation: the CLARIAH level and beyond
+
+The scenario above operates at the Media Suite level — one research environment,
+one agent, one researcher. But the research question — *I am studying the
+representation of migration in Dutch media over the last fifty years* — is not a
+Media Suite question. It is a question about Dutch media, which spans Sound &
+Vision broadcasts, KB newspapers, DANS oral history interviews, EYE film
+collections, and potentially social media data from multiple platforms. No single
+research environment holds all of this.
+
+The right architectural response to this is federation — a network of specialised
+agents, each with deep knowledge of its own domain, that can be coordinated by a
+higher-level agent. The Media Suite agent knows the Sound & Vision collection
+intimately: its coverage, its access conditions, its ASR transcripts, its linked
+data. The DANS agent knows the oral history collections. The KB agent knows the
+newspaper archive. A CLARIAH-level coordinating agent — sitting at clariah.nl,
+or eventually embedded in what INEO currently tries to be as a portal — can
+query all of them and synthesise across their responses.
+
+This is not the same as building a single monolithic CLARIAH research application.
+That approach has been tried in various forms and consistently fails: the
+institutional complexity underneath does not disappear because there is a unified
+interface on top, and maintaining a centralised surface that accurately represents
+distributed, differently-governed collections requires unsustainable effort. The
+federated agent model is different in a crucial way: each specialised agent
+maintains its own accuracy and its own governance. A researcher who asks the
+CLARIAH agent about newspaper coverage gets an answer sourced from the KB agent's
+own authoritative knowledge. If the KB agent does not know something, it says so —
+the CLARIAH agent does not fabricate an answer on its behalf.
+
+INEO's role in this architecture is as a catalogue, not a portal. It is the
+human-readable and machine-queryable registry of what tools, datasets, workflows,
+and educational materials exist across CLARIAH — the map that a coordinating
+agent can query to find out which specialised agents exist and what they cover.
+This is a more sustainable and more accurate role for INEO than trying to present
+a unified surface over heterogeneous data it does not control.
+
+The Media Suite's identity in this federated architecture is clear: it remains a
+research environment with its own interface, tools, and community of researchers
+who know it and use it directly. It also exposes its capabilities as MCP tools
+callable by external agents. These two roles are not in tension. A researcher who
+knows the Media Suite uses it as before. A researcher who asks a question on
+clariah.nl gets routed to Media Suite capabilities without needing to know the
+Media Suite exists. The institution's research environment and the federated
+infrastructure are the same thing, at different levels of abstraction.
+
+What makes this achievable — rather than another promised federation that never
+materialises — is the combination of three things that have not previously been
+in place simultaneously: a standard protocol (MCP) that is simple enough for
+institutions to implement without large integration projects; AI agents capable
+of synthesising across heterogeneous sources without requiring those sources to
+be harmonised first; and a concrete proving ground (Open Beelden) where the full
+chain can be demonstrated end to end before the vision is extended. The federation
+does not need to be complete before it starts working. It needs one chain to work
+properly, and then another, and then another.
+
+### Parallel paths: vector search and structured queries
+
+One of the key design insights from the prototype work is that vector search and
+structured queries are complementary, not competing. They answer different kinds
+of questions and should run in parallel, with the agent synthesising from
+whatever both return.
+
+Vector search — embedding a question and finding semantically similar chunks of
+text — is good at fuzzy, open-ended questions: *what have researchers said about
+migration and Dutch television?* It handles vocabulary variation, finds related
+concepts, and works well when the researcher does not know exactly what to look for.
+
+Structured queries — SPARQL templates run against the linked data endpoint — are
+good at precise, relational questions: *which programmes in the NISV archive from
+1990–2010 have ASR transcripts and are accessible without a SURFconext login?*
+They return exact, verifiable answers and work well when the question has a
+definite answer.
+
+The agent decides which path to take based on the nature of the question — or,
+more robustly, runs both paths and synthesises from the combination. Factual
+questions about collections, access conditions, and rights get routed to
+structured queries. Exploratory questions about content, themes, and prior
+research get routed to vector search. Complex questions that require both get
+both. The named SPARQL query catalogue — already containing eleven templates
+covering tools, collections, workflows, and access conditions — is the structured
+path's tool kit, and it grows as new question types are identified.
+
+### The dataset agent concept
+
+The agentic architecture described above applies to the Media Suite as a whole —
+all collections, all tools, all documentation. But the path to building it
+sustainably is incremental. The concept of the *dataset agent* — a well-instrumented,
+independently deployable agent for a single dataset — is the building block.
+
+A dataset agent for Open Beelden, for example, would expose:
+- Semantic search over ASR transcripts of the full Open Beelden corpus
+- Structured SPARQL queries over the Open Beelden linked data
+- Visual similarity search over VisXP embeddings of Open Beelden keyframes
+- Rights and access information from the NDE registration
+- Provenance and coverage information from Dataset Archaeology
+
+It would be deployable independently, callable via MCP, and usable both within
+the Media Suite and by external applications. When a second dataset agent is
+built — for the Oral History collection, for the newspaper archive, for the
+television news collection — it is added alongside the first without changing
+either one. Cross-dataset queries become possible when two agents exist:
+*compare the framing of migration in television news and in oral history
+testimonies from the same period* is a question that spans two dataset agents
+and requires a coordinating layer to synthesise the results.
+
+This is the dataset-by-dataset expansion model. It is deliberately incremental:
+prove the architecture works on one dataset, then add the next. Each addition
+increases the capability of the whole system without requiring a redesign.
+Open Beelden, as the only fully open NISV dataset with no login requirement, is
+the right place to start — and its migration to the new collection platform by
+April 2027 provides both the deadline and the motivation.
+
+### Responsible AI by design
+
+The architectural vision described here is not neutral with respect to AI
+governance. Several design choices are deliberate responses to the concerns
+raised in Section 3.
+
+**Source grounding over generation.** Every claim the agent makes is linked to
+a source in the knowledge base or the collection. The agent does not generate
+answers from general knowledge — it retrieves and synthesises from verified
+sources, with provenance at every step. This is not a technical constraint; it
+is the design choice that makes the system trustworthy for research use.
+
+**Transparency about uncertainty.** When retrieval confidence is low — when
+the agent cannot find relevant material, or finds conflicting information, or
+reaches the boundary of what the knowledge base covers — it says so. An answer
+that acknowledges its own limits is more useful to a researcher than a confident
+answer that conceals them.
+
+**Rights enforcement, not rights bypass.** The access control layer is not a
+friction point to be minimised — it is a feature. The agent enforces access
+conditions, communicates them clearly, and routes researchers to appropriate
+paths. Material that requires a SURFconext login is not accessible without one,
+and the agent does not pretend otherwise.
+
+**Local-first where possible.** The prototype work was built entirely on locally
+running models — no data sent to commercial APIs, no archive content used as
+training material. Production deployment will require infrastructure decisions
+about which models to run where, but the principle of keeping archival data
+within institutional control is not negotiable. The work to build this on
+NISV's own OpenShift infrastructure is already underway.
+
+**Evaluation as a continuous practice.** The system is only as trustworthy as
+the evidence that it works correctly. The evaluation framework — structured test
+questions, retrieval benchmarks, publicly reported quality metrics — is built in
+from the start and updated as the system evolves. Quality is not asserted; it is
+measured and reported.
+## Section 6 — Open Beelden as the proving ground
+
+Every architectural vision needs a proving ground — a bounded, real case where
+the theory is tested against practice, where the gaps between what is claimed and
+what is true become visible, and where the lessons learned shape everything that
+follows. For the agentic architecture described in this document, that proving
+ground is Open Beelden.
+
+The choice is not arbitrary. Three advantages compound each other in a way that
+makes Open Beelden uniquely suited to this role, and a fourth — the hard deadline
+of April 2027 — makes it urgent.
+
+### Three compounding advantages
+
+**Open access — no login required.** Open Beelden is the only NISV collection
+that is fully open: Creative Commons licensed, publicly accessible without a
+SURFconext login, downloadable without institutional affiliation. This matters
+enormously for the agent architecture because it removes the access control
+complexity that makes everything else harder. An AI assistant built on Open
+Beelden can be deployed publicly — accessible to researchers, journalists,
+educators, students, and the general public — without the authentication
+infrastructure, usage tracking, and rights enforcement that restricted
+collections require. This is the first opportunity to demonstrate what AI-assisted
+heritage access looks like when the answer is genuinely "anyone can use this,"
+not "anyone with the right institutional affiliation can use this."
+
+The public access angle has strategic significance beyond the technical. The
+Media Suite's primary audience has always been academic researchers. Open Beelden
+offers a route to a much broader audience — the journalist who wants to find
+historical footage, the educator who wants to illustrate a lesson, the citizen
+who is curious about Dutch media history. An agent that can answer their questions
+in natural language, with source links and access to the actual content, is a
+qualitatively different kind of public service than a traditional search interface.
+It is also a demonstrator for what the Media Suite could become for all open
+content, and what NISV's contribution to European open heritage can look like
+when the infrastructure is properly connected.
+
+**Already instrumented — the technical foundation is largely in place.** Open
+Beelden is not a new dataset that needs to be built from scratch. The linked data
+for the B&G Open Beelden set is already present in the B&G LOD endpoint,
+queryable via SPARQL. ASR processing is underway for the collection, with timecoded
+transcripts being added to the Elasticsearch index. IIIF manifest support is being
+developed, which will enable fragment-level access — stable, citable temporal
+references to specific moments in specific videos. NDE registration exists,
+though it needs to be completed and enriched with proper DCAT and ODRL metadata.
+The collection also includes sub-collections beyond the B&G set — Natuurbeelden,
+VPRO, EYE, Yad Vashem — that need to be brought into the same infrastructure.
+
+This is not a situation where the work starts from zero. It is a situation where
+substantial groundwork has been done and what is needed is the focused commitment
+to complete it — to close the gaps, connect the layers, and bring the dataset to
+the standard that the agent architecture requires. The difference between "we have
+some linked data and some ASR transcripts" and "this dataset is fully agent-ready"
+is a matter of focused engineering and governance, not a fundamental rearchitecting.
+
+**NDE registration — the model for the national chain.** Open Beelden is the
+right dataset to demonstrate the full NISV → NDE → Media Suite chain working
+properly, for a reason beyond its technical readiness: it is fully open, which
+means the governance complexity around rights and access does not obscure the
+technical work. A restricted dataset that goes through the chain correctly still
+requires careful management of who can access what and under what conditions.
+Open Beelden has CC licenses. The rights question is settled. This makes it
+possible to focus entirely on getting the technical chain right — correct DCAT
+metadata, correct ODRL expressions, proper distribution descriptions, NDE
+registration that accurately reflects what is available and how to get it — and
+to verify that it works end to end before applying the same approach to datasets
+where the rights complexity is harder.
+
+When the Open Beelden chain is complete and working, it becomes the reference
+implementation. Every subsequent dataset added to the Media Suite follows the
+same pattern. Data providers who want their dataset in the Media Suite are shown
+Open Beelden as the model. NDE registration is not optional; it is the entry
+point. The mess that CKAN became does not recur if the governance commitment is
+maintained from the start.
+
+### The April 2027 deadline — migration as opportunity
+
+Open Beelden as a standalone platform (openbeelden.nl) is being phased out by
+April 2027. The content and functionality need to migrate to new homes: the B&G
+PeerTube instance for video playback, Wikimedia Commons for open distribution,
+and the Media Suite for research access and AI-assisted discovery.
+
+This deadline is both a constraint and an opportunity. It is a constraint because
+it sets a hard date by which the Media Suite integration must be functional — the
+research access that openbeelden.nl currently provides cannot simply disappear.
+It is an opportunity because it creates institutional momentum for doing the work
+properly rather than quickly: the migration happens once, and if it is done with
+the full chain in place — NDE registration, agent-ready linked data, ASR
+transcripts, IIIF manifests, public access without login — it sets the standard
+for everything that follows.
+
+The Media Suite team has no hard deadline responsibility for the platform
+migration itself. This is actually an advantage: it means there is freedom to
+take the time to build the agent layer correctly, rather than rushing a minimal
+integration to meet an operational deadline. The question is not "how do we get
+Open Beelden into the Media Suite by April 2027" — that is straightforward. The
+question is "how do we get Open Beelden into the Media Suite by April 2027 in a
+way that demonstrates the architecture we want for everything else."
+
+### What "done properly" means
+
+An Open Beelden dataset agent that demonstrates the architecture needs to
+deliver five things, verifiably:
+
+**1. The full chain completed.** NDE registration with correct DCAT and ODRL
+metadata, Media Suite local registry harvesting from NDE, Media Suite index
+built from the harvested data, DS4CH/Europeana receiving from NDE rather than
+via a parallel aggregator route. Not "the data is somewhere accessible" but
+"the chain is traceable from source to research environment to European data
+space."
+
+**2. Full ASR coverage with timecoded transcripts.** All Open Beelden content
+— B&G set plus Natuurbeelden, VPRO, EYE, Yad Vashem — processed through the
+ASR pipeline with timecoded transcripts indexed in Elasticsearch. This is the
+layer that makes content-based search possible and that enables temporal deep
+links in agent responses. It is also the organisational coordination task that
+needs a named owner and a delivery date.
+
+**3. Visual similarity from prototype to production.** The VisXP work produced
+shot-level embeddings for visual similarity search. Open Beelden is the right
+dataset to move this from prototype to a production agent tool — manageable
+scale, open license, no rights complications. A researcher who can ask "find
+footage that looks like this" and get a grounded, source-linked answer is
+experiencing a capability that no other Dutch heritage interface currently
+offers. This is the investment that needs focused attention.
+
+**4. A public-facing agent interface.** Not a researcher-only tool behind a
+SURFconext login but a genuinely public interface — embeddable on the Media Suite
+community site, accessible from a public URL, usable by anyone. The evaluation
+framework includes questions from journalists, educators, and general users,
+not just academic researchers. Quality is reported publicly, as the ASR
+benchmarks are, so users can understand what the system can and cannot do.
+
+**5. Evaluation as a published benchmark.** A structured set of test questions
+— across all content types and question types that Open Beelden supports — with
+Hit@10 and MRR scores published openly and updated as the system improves. This
+is the evidence that the architecture works. It is also the discipline that
+prevents the "it works in demos" failure mode that has plagued previous
+infrastructure initiatives. If the system cannot answer a class of questions
+well, that is reported, not hidden.
+
+### Open Beelden as the first dataset agent
+
+When all five of these are in place, Open Beelden becomes the first proper
+dataset agent in the Media Suite ecosystem: a well-instrumented, independently
+deployable, MCP-callable agent for a single dataset, demonstrating the full
+architecture from NDE chain to public-facing retrieval.
+
+The second dataset agent — whether for the television news collection, the Oral
+History interviews, or a subset of the Sound & Vision archive — follows the same
+model. It is added alongside Open Beelden without changing Open Beelden. The
+cross-dataset questions become possible as soon as two agents exist: a researcher
+asking about migration across television news and open archival footage has two
+agents to query and a coordinating layer to synthesise the results.
+
+This is the incremental path from a working prototype to a working infrastructure.
+Not a grand unified system, not another promised federation that will take years
+to materialise. One dataset, done properly. Then another. Then another.
+
+The frustration of people who have known what was needed for years — who have
+watched the registry chain fail to close, who have seen linked data promise more
+than it delivered, who have built prototype after prototype that never reached
+production — is legitimate. Open Beelden is the chance to demonstrate that the
+frustration is over, that the architecture is right, and that the institutional
+commitment is real. It is a small dataset by any measure. What it proves is not.
+## Section 7 — The vision is already being built
+
+The architectural vision described in Sections 4 and 5 is sometimes presented
+in documents like this as a proposal for future work. This section makes a
+different claim: every major component of the architecture is already under
+active development, across multiple funded projects, by the same team. The white
+paper is not a proposal. It is the frame that connects what the team is already
+doing.
+
+The table below maps the five components the architecture requires to the
+projects and tasks currently building them. The detail behind each mapping is
+in the accompanying project-vision mapping document (`project_vision_mapping_v2.md`).
+
+| Architecture component | What builds it |
+|---|---|
+| Agent layer — embedding, vector retrieval, MCP server, agent orchestration | AI experimentation (SSHOC-NL / Macroscope) |
+| Access control — DAB, AAI/SRAM, SANE trusted environment | National Data Flow (SSHOC-NL) |
+| National dataset catalogue — NDE registration, DCAT, ODRL | Open Beelden Integration + National Data Flow |
+| Knowledge graph — entity model, SPARQL query catalogue, RDF | INFINITY (Horizon Europe) |
+| Applied user scenarios — journalism, oral history, cross-media | HAICu Deep Journalism Lab |
+| Social media corpus — comparative cross-media analysis | Macroscope |
+| Fragment citation — IIIF for AV, proxy fragment access | IIIF Viewer & Image Collections (SSHOC-NL) |
+
+What follows describes each component in the terms of what it contributes to
+the architecture, and what remains to be done.
+
+### The agent layer
+
+The most direct implementation of the vision is already well underway. The
+mediasuite-agent repository — developed as part of the AI experimentation work
+funded by SSHOC-NL and Macroscope — contains an Embeddings API for converting
+text to dense vector representations, a Milvus vector database deployed on
+NISV's OpenShift infrastructure, and an MCP server with agent tools already
+defined: `embed_text`, `query_archive`, `query_milvus`. An Agent API with the
+main orchestration logic is in active development, with a full prototype expected
+by end of Q2 2026 and suitable for initial user testing.
+
+The embedding model chosen — `multilingual-e5-large-instruct` — handles Dutch
+and English in the same vector space, which matters for a corpus spanning decades
+of Dutch-language broadcasting queried by an international research community.
+
+The Frozen Sets concept — user-defined, topic-scoped subsets of Media Suite
+content that can be embedded and queried independently via RAG — is confirmed
+in scope. A researcher defines a dataset by specifying a topic, time period,
+and collection scope; the system makes it queryable as its own agent. This
+points toward improved reproducibility — a Frozen Set is more than a saved
+search result in that it captures the corpus definition explicitly, making it
+easier to re-run analyses on a defined subset. Whether it fully solves the
+reproducibility problem is a more difficult question. True reproducibility
+requires that the same query returns the same results at a later date, which
+in turn requires that the underlying collection is versioned and that the state
+of the index at the time of the original analysis is preserved or citable.
+Collections do change: new items are added, metadata is corrected, ASR
+transcripts are updated. A Frozen Set as currently conceived does not
+address this. It is a step in the right direction — and a useful one — but
+the full reproducibility challenge requires versioned collections and citable
+data snapshots, which is a harder infrastructure problem that deserves separate
+attention.
+
+Two gaps are worth naming explicitly. First, a human-verified evaluation set
+for the agent does not yet exist. The approach that has proven effective for
+the documentation knowledge base — developed as a parallel prototype to ground
+the architectural thinking in this white paper — combines automatic validity
+testing with human verification: a structured set of questions is generated
+over the collection, automatically checked for whether retrieval returns
+expected sources, and then extended and validated by researchers who can judge
+whether the answers are actually useful. Quality metrics are reported publicly,
+as the ASR benchmarks are, so quality is transparent rather than asserted.
+This approach needs to be applied to the AV collections agent from the start,
+with a named owner and a commitment to publish the results. Second, the MCP
+server design needs to take the full architecture into account from the start
+— each tool built once and shared, not reimplemented per project.
+
+### The access control layer
+
+The Data Access Broker (DAB), Authentication and Authorisation Infrastructure
+(AAI via SURFconext and SRAM), and SANE trusted analysis environment are being
+built as part of the SSHOC-NL national data flow work. These are the components
+that make rights-aware agentic access possible for restricted collections.
+
+The pilot workflow — dataset registered in NDE with ODRL rights rules, user
+requests access via DAB, DAB verifies authorisation via SURFconext/SRAM, data
+transferred to SANE for quantitative research or the Media Suite for qualitative
+research — is a precise description of controlled agentic data access. It is
+being built and tested now.
+
+Two honest caveats. Current authorisation is binary: SURFconext confirms
+institutional affiliation but does not yet distinguish between institutions or
+grant granular access based on specific dataset agreements. SRAM adds the
+role-based layer that makes finer-grained authorisation possible, and that work
+is ongoing. And ODRL implementation — machine-readable rights expressions that
+an agent can read to know what it is permitted to do with a dataset — is
+understood conceptually at NISV but not yet operationally standard. Making ODRL
+part of every NDE registration, starting with Open Beelden, is the concrete
+first step.
+
+### The national dataset catalogue
+
+The NDE Dataset Register is already publicly queryable via SPARQL — no
+authentication required, no new infrastructure needed. An agent tool that
+queries the register can tell a researcher what datasets exist nationally,
+what their rights are, and how to access them. This is a working agent tool
+today.
+
+What is not yet working is NISV's contribution to that register. As described
+in Section 5, NISV currently contributes to Europeana via EUscreen, bypassing
+NDE. The Open Beelden integration work — Task 2026-012 — is the vehicle for
+closing this gap: publishing the full Open Beelden dataset as linked data via
+data.beeldengeluid.nl, registering all sub-collections in the NDE register
+with correct DCAT and ODRL metadata, and ensuring that DS4CH/Europeana receives
+from NDE rather than via a parallel aggregator route.
+
+This is the governance commitment that makes the technical architecture credible.
+The policy is: new datasets follow the chain. Open Beelden is first.
+
+### The knowledge graph
+
+INFINITY is a Horizon Europe knowledge graph project for cultural heritage data,
+in its first year of preparation in 2026. Its Use Case Requirements and Design
+work package (WP5) and Ethics and Design work package (WP8) are both active in
+2026 — precisely when the prototype knowledge graph built alongside this white
+paper provides concrete evidence about what entity models and query patterns are
+needed and what failure modes arise in practice.
+
+The prototype knowledge graph — 1057 triples across five entity types, eleven
+named SPARQL query templates, deterministic embedding-based routing — is a
+working proof of concept for what INFINITY will build at production scale. The
+Media Suite's existing linked data assets — the GTAA thesaurus connections,
+the Wikidata linkages, the data.beeldengeluid.nl SPARQL endpoint — position
+NISV as a contributor with substantial existing structured data, not a passive
+participant. Articulating that contribution concretely, ahead of the next INFINITY
+project meeting, is a near-term priority.
+
+### The applied user scenarios
+
+The HAICu Deep Journalism Lab — led by NISV within the HAICu programme — is
+developing the first end-to-end user scenario for the agentic architecture:
+a journalist or researcher exploring how migration has been portrayed in Dutch
+television, contrasted with personal testimonies from oral history collections.
+This scenario spans broadcast material (Sound & Vision) and oral history
+(in collaboration with DANS), with AI supporting cross-media retrieval,
+contrast, and narrative construction.
+
+This scenario is the human evaluation that the agent layer currently lacks.
+Rather than depending on what the Deep Journalism Lab researchers choose to do
+— which may go in a journalistic rather than a research direction — the
+evaluation framework should be designed proactively: a curated set of questions
+on Open Beelden and the television news collection, structured by type and
+difficulty, built in the same way the documentation knowledge base evaluation
+was built. The Deep Journalism Lab is a valuable source of authentic questions,
+but it should supplement a proactively designed evaluation set rather than
+replace it.
+
+The scenario also has a funding implication worth naming. The Deep Journalism
+Lab has no dedicated development budget for the infrastructure work the scenario
+requires — broadcast data pipeline, oral history integration, interactive
+storytelling output. A dedicated project building on CLARIAH infrastructure
+and incorporating Media Suite broadcast data, Oral History (in collaboration
+with DANS), and interactive storytelling capabilities, would be the natural
+vehicle. The white paper's vision provides the architectural frame for exactly
+that kind of project proposal.
+
+### The social media layer
+
+The Macroscope project is building the Netherlands Media Corpus: a multi-modal, temporally structured
+corpus connecting broadcast (Sound & Vision), print (KB newspapers), and social
+media (Twi-XL and others) into a unified research resource. For the Media Suite
+team, the CLARIAH contribution to Macroscope is concrete: a queryable AV layer
+for the Netherlands Media Corpus, exposed via MCP, with an evaluation framework.
+This is not "AI cross-media analysis" in the abstract — it is a dataset agent
+that contributes the broadcast and audiovisual dimension to a federated
+cross-media corpus that other CLARIAH partners contribute to in parallel.
+
+This framing also makes the legal constraints more legible. Social media data
+subject to platform terms of service and AVG privacy rules cannot be queried
+openly. The Data Access Broker and SANE trusted environment are not optional
+add-ons for the Macroscope corpus — they are the only compliant mechanism by
+which an agent can query sensitive social media data on behalf of a researcher.
+Macroscope is the first production test of whether DAB/SANE actually works as
+the agent's access control mechanism at scale.
+
+At the CLARIAH level, the Netherlands Media Corpus is the multi-source corpus
+that a CLARIAH coordinating agent queries when a researcher asks a cross-media
+question — the kind described in Section 5's federation scenario. At the Media
+Suite level, the deliverable is the AV component of that corpus: queryable,
+MCP-callable, evaluated.
+
+### What is not yet connected
+
+Three gaps are worth naming explicitly, because they represent coordination
+work that does not yet have a clear owner.
+
+**A shared evaluation framework.** The agent layer, the documentation knowledge
+base, and the future dataset agents all need evaluation, but evaluation is being
+developed separately in each context. Someone needs to own the question of what
+"working well" means across the whole system — building the test sets, running
+the benchmarks, and reporting the results publicly. Concretely, this is the
+work of a Media Suite analyst or data scientist with domain knowledge of the
+collections and the research questions, working closely with researchers to
+extend and validate the evaluation set over time.
+
+**MCP server coordination.** The agent layer is building an MCP server. The
+SPARQL endpoint, the Elasticsearch search, the NDE register query, the access
+control layer, the visual similarity index — all of these need MCP wrappers.
+Given a small team, the right approach is sequential and disciplined: one MCP
+server at a time, built to a shared standard, evaluated before moving to the
+next. This is not a reason for delay — the first server (the archive query
+tools currently in development) is already underway. It is a reason to resist
+the temptation to build parallel wrappers per project, and to bring in people
+from across the institute — on the data, legal, and rights dimensions — who
+need to be involved for each capability to work correctly.
+
+**The Open Beelden ASR organisational question.** Having ASR transcripts for
+all Open Beelden content is technically feasible — the pipeline exists. The
+question is organisational: who coordinates running it across the full collection,
+including the non-B&G sub-collections, and by when. This is an internal
+coordination task rather than a technical challenge, and it needs a named owner
+and a delivery date before the dataset agent can be fully operational.
+
+### The summary argument
+
+The current project portfolio is building the agentic architecture from multiple
+directions simultaneously. The agent layer from the AI experimentation work.
+The access control layer from the national data flow work. The knowledge graph
+from INFINITY. The first dataset agent from the Open Beelden integration. The
+applied user scenario from the Deep Journalism Lab. None of these projects was
+designed with the explicit goal of building an agentic architecture — they were
+designed to solve specific, funded research problems. But the architecture
+described in this document is what they converge on when their outputs are
+connected.
+
+What is missing is not ambition and not technical capability — though the team
+is currently under-resourced relative to the scope of what is being built, and
+making that case is part of what this document is intended to support. What is
+missing above all is the explicit frame that names what the projects have in
+common and the coordination that ensures their outputs are compatible. This
+white paper is that frame. The coordination, and the resourcing, is what comes
+next.
+## Section 8 — Roadmap
+
+The roadmap for this work is maintained as a living document in the
+accompanying repository (`ROADMAP.md`), with detailed phase descriptions,
+individual checklist items, and a learning log that records what changed and
+why. This section provides the higher-level view: the phased structure, the
+key decision points, and the gates that need to be passed before each phase
+can credibly begin.
+
+The roadmap is organised around the dataset-by-dataset expansion model: each
+phase adds a new dataset agent, with evaluation evidence from the previous
+phase informing the design of the next. This is not the only possible approach
+— a broader parallel build would be faster on paper — but it is the approach
+that is most likely to produce working infrastructure rather than another
+partially-completed federation.
+
+### Phase 1 — Documentation knowledge base (complete)
+
+A working RAG pipeline over the Media Suite's documentation — Help pages,
+How-to guides, FAQ, tutorials, data stories — with a knowledge graph layer,
+dual retrieval paths (semantic search and structured SPARQL queries), and a
+structured evaluation framework. Hit@10 of 86–100% on a verified test set of
+researcher questions. Publicly deployable as an "Ask Media Suite" assistant.
+
+This phase demonstrated the architecture at small scale and on content the
+team controls completely. It produced the evaluation methodology and the
+prototype knowledge graph that inform all subsequent phases. It is documented
+in the mediasuite-knowledge-base and media-suite-learn-chatbot repositories,
+which will be migrated to the beeldengeluid GitHub organisation as part of the
+Phase 4 infrastructure transition.
+
+### Phase 2 — Open Beelden dataset agent (current focus)
+
+The full chain completed for one open dataset: NDE registration with correct
+DCAT and ODRL metadata, Media Suite index built from harvested linked data,
+ASR transcripts covering the full collection, visual similarity from VisXP
+prototype to production agent tool, public-facing interface without login
+requirement, evaluation framework with published quality metrics.
+
+The ambition for this phase is to have the Open Beelden dataset agent
+working well before any external user testing begins — the evaluation evidence
+from this phase is what makes subsequent phases credible.
+
+**Gate for Phase 3:** the Open Beelden chain is complete, the evaluation
+framework shows acceptable retrieval quality, and at least one external user
+group (journalists, educators, or researchers) has provided structured feedback.
+
+### Phase 3 — Broadcast and television news agent
+
+The first restricted dataset agent: a queryable agent for the television news
+collection, or a defined subset of the Sound & Vision broadcast archive, with
+access control via SURFconext/SRAM and the Data Access Broker. This phase tests
+the access control layer under realistic conditions — real researchers, real
+restricted content, real authorisation requirements.
+
+The Deep Journalism Lab scenario — migration across television news and oral
+history — is both the natural evaluation context for this phase and a potential
+driver of which restricted dataset is prioritised first: the collection most
+relevant to the lab's research questions is also the one that benefits most
+from early agent-readiness. The Macroscope contribution — the queryable AV
+layer for the Netherlands Media Corpus — is the parallel development that feeds
+the cross-media capability.
+
+**Gate for Phase 4:** the access control layer works correctly for at least
+one restricted dataset, the DAB/SANE pathway is tested with real researchers,
+and the MCP server covers both the open and restricted dataset agents with a
+shared interface.
+
+### Phase 4 — Prototype integration and first cross-dataset queries
+
+The personal prototype repositories — developed to prove the architecture and
+ground the thinking in this white paper — are consolidated into the team's
+production infrastructure on NISV OpenShift and beeldengeluid GitHub. This is
+not a migration of the team's ongoing work, which is already being built on
+institutional infrastructure, but the integration of the prototype's evaluation
+framework, knowledge graph patterns, and MCP server designs into the shared
+codebase. The first cross-dataset queries then become possible: a researcher
+question that spans the Open Beelden agent and the television news agent,
+synthesised by a coordinating layer.
+
+This phase must happen before external researcher testing at scale. It is also
+the phase that tests whether the institutional commitment to the chain holds
+when the work moves from prototype to production: registry hygiene, governance
+discipline, and the maintenance burden of a system that real researchers depend
+on.
+
+**Gate for this phase being the right moment:** a natural trigger is when the
+first external researcher group is ready to use the system — not before, because
+migration under production load is harder than migration before deployment, but
+not after, because running production traffic on personal infrastructure is
+not sustainable.
+
+### Phase 5 — Knowledge graph at scale and CLARIAH federation
+
+Integration with the INFINITY knowledge graph project, expanding the entity
+model and SPARQL query catalogue to production scale. The first connection to
+a CLARIAH-level coordinating agent — a researcher on clariah.nl asking a
+cross-media question that the Media Suite agent answers as one component of
+the response.
+
+The NDE register, properly populated by phases 2 and 3, is the catalogue the
+coordinating agent queries. INEO plays its natural role as the human-readable
+and machine-queryable map of CLARIAH tools and datasets.
+
+### Phase 6 — User evaluation and iteration
+
+Structured evaluation with real researchers across multiple user groups:
+academic researchers, research journalists, educators, and — via the Open
+Beelden public interface — the general public. Evaluation results are published
+openly and drive the next iteration of both the knowledge base content and the
+retrieval architecture.
+
+This phase is not an endpoint. It is the beginning of the continuous evaluation
+practice that makes the system trustworthy over time. The evaluation framework
+built in phases 1 and 2 scales to cover new datasets, new user groups, and
+new question types as they emerge.
+
+### Phase 7 — Expansion beyond the Media Suite
+
+As the architecture matures and the evaluation evidence accumulates, the
+infrastructure — the MCP servers, the evaluation framework, the NDE chain
+governance — becomes available to other CLARIAH components and other heritage
+institutions. The dataset agent model, proven on Open Beelden and the television
+news collection, becomes the reference implementation for any institution that
+wants to make a dataset AI-queryable within the CLARIAH ecosystem.
+
+This is not a separate project — it is what happens when phases 1 through 6
+work as described. The infrastructure does not need to be redesigned for
+other institutions; it needs to be documented, maintained, and governed.
+
+### Key dependencies and risks
+
+**The governance commitment.** Every phase depends on the NDE chain being
+maintained and extended. If the governance discipline established for Open
+Beelden in phase 2 is not sustained — if subsequent datasets bypass the chain,
+if NDE registration slips back to being optional — the federated architecture
+fails regardless of the technical quality of the individual components. This
+is the risk that has caused previous federation attempts to fail, and it is
+the risk that requires active management, not just technical implementation.
+
+**The resourcing gap.** The team is currently under-resourced relative to the
+scope of what is being built across multiple funded projects simultaneously.
+The evaluation framework, the MCP server coordination, the VisXP revival, the
+Open Beelden ASR completion — each of these needs sustained attention from
+someone with the right combination of technical and domain knowledge. The
+white paper is partly intended to make this case: the architectural vision is
+credible and the project portfolio is aligned, but the coordination and
+evaluation work requires investment that is not fully covered by current
+project budgets.
+
+**Prototype integration timing.** Consolidating the prototype work into the
+team's production codebase (Phase 4) should happen as soon as the Open Beelden
+evaluation evidence is strong enough to guide the design choices — not before,
+to avoid integrating something that needs further iteration, and not long after,
+to avoid the prototype diverging from the production direction.
+
+**The visual similarity gap.** VisXP produced real infrastructure that has
+been left at prototype stage. If the Open Beelden dataset agent launches
+without visual similarity, it demonstrates a diminished version of the
+architecture's potential. The decision to invest in moving VisXP to production
+needs to be made early in phase 2, not deferred to phase 3.
+
+### This roadmap is a living document
+
+The roadmap described here, and maintained in detail in `ROADMAP.md`, will
+change as the work progresses. What we learn from the Open Beelden evaluation
+will change how we approach the television news agent. What we learn from the
+Deep Journalism Lab will change how we design the evaluation framework. What
+we learn from the NISV migration will change what we recommend to other
+institutions.
+
+This is the epistemically honest position: the architecture is right at the
+level described in this document, but the implementation details will be
+revised in the light of evidence. The learning log in `ROADMAP.md` records
+what changed and why. The version history of this document records how the
+vision itself evolves.
+
+The goal is not to produce a document that is correct once and then maintained
+forever unchanged. It is to produce a document that is honest about what is
+known, clear about what is uncertain, and updated as the uncertainty resolves.
+## Section 9 — Priorities, next steps, and what this enables
+
+### The three things that matter most right now
+
+Across the sections of this document, several priorities emerge. Not everything
+can happen at once, and the team is small. These three are the ones where
+decisions made now have the most consequence for everything that follows.
+
+**1. Complete the Open Beelden chain — properly.**
+This is the work that makes everything else credible. NDE registration with
+correct DCAT and ODRL metadata. ASR transcripts across the full collection,
+with a named owner and a delivery date. VisXP visual similarity moved from
+prototype to production agent tool — a decision that needs to be made now,
+not deferred. A public-facing interface with a published evaluation framework.
+This is not one project among many; it is the proof of concept that the
+entire architecture rests on.
+
+**2. Coordinate the MCP server — as shared infrastructure.**
+The mediasuite-agent MCP server is being built. The SPARQL endpoint, the
+Elasticsearch search, the NDE register query, the access control layer, and
+the visual similarity index all need MCP wrappers. The discipline required
+is sequential and deliberate: one capability at a time, built to a shared
+standard, evaluated before the next. The coordination across projects and
+teams — ensuring each wrapper is built once and shared rather than
+reimplemented — needs active ownership. This is an architectural governance
+task as much as a technical one.
+
+**3. Build the evaluation framework as a public benchmark.**
+Every capability added to the system needs a test set, a quality metric, and
+a published result. Not after deployment — from the start. The model is the
+ASR benchmarking at opensource-spraakherkenning-nl.github.io: transparent,
+updated as the system improves, honest about failure modes as well as
+strengths. The evaluation framework built for the documentation knowledge base
+prototype is the starting point. Extending it to cover Open Beelden content,
+then restricted collections, then cross-dataset queries, requires sustained
+attention from someone with both domain knowledge and evaluation methodology
+skills. This role needs to be filled.
+
+### What the team needs to do
+
+For the team reading this document, the priorities translate into concrete
+next steps:
+
+**Immediately:**
+- Confirm a named owner for the Open Beelden ASR completion, with a delivery
+  date, covering all sub-collections including Natuurbeelden, VPRO, EYE, and
+  Yad Vashem
+- Make the VisXP investment decision: prototype to production for Open Beelden,
+  or explicitly defer with a stated reason
+- Agree on the MCP server design standard before additional wrappers are built
+
+**In the next quarter:**
+- Complete the Open Beelden NDE registration with correct DCAT and ODRL metadata
+- Launch the public-facing Open Beelden agent interface, even in beta, with the
+  evaluation framework running alongside it
+- Establish the evaluation framework as a shared responsibility — not attached
+  to any single project — with results reported publicly
+
+**Over the next year:**
+- Use the Open Beelden evaluation evidence to design the television news agent,
+  with the Deep Journalism Lab scenario informing which collection is prioritised
+- Integrate the prototype repositories into the team's production codebase once
+  the design choices from Open Beelden are stable
+- Articulate NISV's concrete contribution to INFINITY ahead of the next project
+  meeting — using the prototype knowledge graph as evidence
+
+### What this enables beyond the research community
+
+The focus of this document has been the research use case: the historian, the
+computational humanities researcher, the digital journalist who needs to
+navigate a complex heritage archive. That is the right starting point — it is
+the audience the Media Suite was built for and the one that has the clearest
+requirements and the most experience with the infrastructure.
+
+But the architecture described here is not specific to research. The MCP
+servers, the agent tools, the NDE chain, the evaluation framework — these are
+general-purpose infrastructure. What changes between audience types is not the
+infrastructure but the interface: the system prompt, the tool priorities, the
+response style, the level of provenance detail required.
+
+**Broadcast professionals.** A producer or archivist looking for reusable
+historical footage needs fast, reliable rights clearance and high-quality
+preview — not a methodological discussion of source criticism. The same agent
+tools that tell a researcher "this collection is accessible under SURFconext
+with these restrictions" can tell a broadcast professional "this footage is
+available for reuse under this license, here is the contact for licensing." The
+archive query tool is the same; the response framing is different. As NISV
+builds AI-assisted services for the broadcast market, the Media Suite's
+agent infrastructure is the natural foundation — not a separate system to build
+from scratch.
+
+**Educators.** A teacher building a lesson on Dutch media history needs
+age-appropriate framing, curriculum alignment, and confidence that the content
+is accessible without institutional login. Open Beelden, with its CC licensing
+and public access, is already the right dataset. An educator-facing agent
+interface — a different system prompt, a different response format, the same
+underlying tools — is a modest extension of what the research-facing interface
+builds. The "Data als Kans" workshops and the Media Suite's existing tutorial
+infrastructure are the natural community for a pilot.
+
+**The general public.** The citizen who is curious about Dutch media history,
+or who wants to find historical footage of an event they remember, or who is
+exploring their family's cultural background through archival material — this
+audience has been the stated aspiration of Open Beelden since its founding.
+An AI assistant that can answer "what footage exists of the 1953 flooding" or
+"show me how Dutch television covered the moon landing" is a qualitatively
+different kind of public access than a search box. It is also, for the first
+time, genuinely achievable without a specialist interface or institutional
+expertise.
+
+The important point is that building these audience-specific interfaces does
+not require rebuilding the underlying infrastructure for each one. The MCP
+servers, the evaluation framework, the NDE chain — these are built once, in
+the research context where the requirements are best understood, and then
+reused across audiences. This is the argument for investing in the
+infrastructure properly: not because research is the only audience that
+matters, but because research is the right starting point for infrastructure
+that ultimately serves everyone.
+
+### A final note on the prototype
+
+The architectural thinking in this document is grounded in practical prototype
+work: a working AI retrieval system over the Media Suite's documentation, with
+a knowledge graph layer, dual retrieval paths, a structured evaluation
+framework, and a chat interface deployable on the community site. It was built
+as a personal project — to connect the dots through direct experience, not
+through reading about it — and it produced lessons that could not have been
+anticipated from the architecture documents alone.
+
+Among those lessons: retrieval quality is only as good as the test set used
+to measure it, and the test set is only as good as the domain knowledge used
+to construct it. The governance failures that have plagued linked data
+federation are real, not theoretical, and naming them honestly is the
+prerequisite for doing better. The MCP protocol makes federation genuinely
+tractable in a way that previous standards did not. And the gap between a
+working prototype and production infrastructure is primarily a governance and
+resourcing gap, not a technical one.
+
+These lessons are in the white paper because they are the most useful things
+it can offer to people who will build the next stages. The architecture is
+right. The path is clear. The work is already underway. What remains is the
+institutional commitment to see it through — dataset by dataset, evaluation
+by evaluation, chain link by chain link — until the federation that the
+heritage sector has been promising itself for twenty years finally materialises,
+one working system at a time.
