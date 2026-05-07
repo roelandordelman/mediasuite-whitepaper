@@ -1,42 +1,42 @@
-# Media Suite White Paper — PDF build
-# Usage: make pdf
-# Requires: pandoc, pdflatex, and images in docs/ folder
+PANDOC    = pandoc
+SOURCE    = whitepaper_draft.md
+TEMPLATE  = mediasuite.latex
+OUTPUT    = mediasuite_whitepaper_v0.1.5.pdf
+DOCS      = docs
+TMPFILE   = /tmp/whitepaper_for_pdf.md
+DRAWIO    = /Applications/draw.io.app/Contents/MacOS/draw.io
+FIGURES   = $(DOCS)/figure1.drawio.png $(DOCS)/figure2.drawio.png $(DOCS)/figure3.drawio.png $(DOCS)/figure4.drawio.png
 
-PANDOC = pandoc
-SOURCE = ../whitepaper_draft.md
-TEMPLATE = mediasuite.latex
-OUTPUT = mediasuite_whitepaper_v0.1.pdf
-DOCS = ../docs
+# Render a single draw.io diagram to PNG (high-res, transparent background off)
+$(DOCS)/figure%.png: diagrams/figure%.drawio
+	@if [ -x "$(DRAWIO)" ]; then \
+		$(DRAWIO) --export --format png --scale 2 --output $@ $< ; \
+	else \
+		echo "draw.io not found at $(DRAWIO); falling back to mmdc for $@"; \
+		npx --yes @mermaid-js/mermaid-cli -i diagrams/$(notdir $(basename $@)).mmd -o $@ --theme neutral -s 2 ; \
+	fi
 
-pdf:
-	$(PANDOC) $(SOURCE) \
+figures: $(FIGURES)
+
+pdf: $(FIGURES)
+	python3 -c "\
+import sys; \
+lines = open('$(SOURCE)').readlines(); \
+promoted = []; \
+[promoted.append(('# ' + l[3:]) if l.startswith('## ') else ('## ' + l[4:]) if l.startswith('### ') else l) for l in lines[8:]]; \
+fixed = []; \
+[fixed.append('\n') or fixed.append(l) if (l.startswith('# ') or l.startswith('## ')) and i > 0 and promoted[i-1].strip() != '' else fixed.append(l) for i, l in enumerate(promoted)]; \
+open('$(TMPFILE)', 'w').writelines(fixed)"
+	$(PANDOC) $(TMPFILE) \
 		--template=$(TEMPLATE) \
-		--resource-path=$(DOCS) \
-		--pdf-engine=pdflatex \
-		--variable=title:"Media Suite in the Age of AI Agents" \
-		--variable=subtitle:"Rethinking Access to Audiovisual Heritage" \
-		--variable=author:"Roeland Ordelman" \
-		--variable=date:"Draft v0.1 — May 2026" \
-		--variable=geometry:"a4paper" \
+		--resource-path=$(shell pwd)/docs \
+		--pdf-engine=xelatex \
+		--top-level-division=section \
 		--toc \
-		--toc-depth=2 \
-		--number-sections \
 		-o $(OUTPUT)
-	@echo "PDF created: $(OUTPUT)"
-
-# Quick version without TOC for fast preview
-preview:
-	$(PANDOC) $(SOURCE) \
-		--template=$(TEMPLATE) \
-		--resource-path=$(DOCS) \
-		--pdf-engine=pdflatex \
-		--variable=title:"Media Suite in the Age of AI Agents" \
-		--variable=author:"Roeland Ordelman" \
-		--variable=date:"Draft v0.1 — May 2026" \
-		-o preview.pdf
-	@echo "Preview created: preview.pdf"
+	@echo "Done: $(OUTPUT)"
 
 clean:
-	rm -f *.pdf *.aux *.log *.toc
+	rm -f $(OUTPUT) $(TMPFILE)
 
-.PHONY: pdf preview clean
+.PHONY: pdf clean

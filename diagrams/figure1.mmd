@@ -1,0 +1,44 @@
+flowchart TB
+    subgraph infra["Layer 1 — Infrastructure Assets"]
+        direction LR
+        ES["Elasticsearch\nASR transcripts + timecodes"]
+        SPARQL["SPARQL endpoint\nlinked data"]
+        NDE["NDE Dataset Register\nnational catalogue"]
+        AAI["SURFconext · SRAM · DAB · SANE\naccess control"]
+        VISX["VisXP embeddings\nvisual similarity"]
+        DOCS["Documentation\nknowledge base"]
+    end
+
+    subgraph mcp["Layer 2 — MCP Tool Layer"]
+        direction LR
+        T1["search_archive()"]
+        T2["query_knowledge_graph()"]
+        T3["find_datasets()"]
+        T4["semantic_search()"]
+        T5["find_visually_similar()"]
+        T6["ask_media_suite()"]
+        T7["check_access()"]
+    end
+
+    subgraph agent["Layer 3 — Agent Reasoning Loop"]
+        REASON["Decomposes question → selects tools → calls in sequence → synthesises → returns grounded answer with sources"]
+    end
+
+    subgraph out["Interfaces"]
+        direction LR
+        R["Research\nMedia Suite"]
+        P["Public\nOpen Beelden agent"]
+        J["Journalism\nDeep Journalism Lab"]
+        F["Federated\nCLARIAH agent"]
+    end
+
+    ES --> T1
+    SPARQL --> T2
+    NDE --> T3
+    DOCS --> T4
+    VISX --> T5
+    DOCS --> T6
+    AAI --> T7
+
+    T1 & T2 & T3 & T4 & T5 & T6 & T7 --> REASON
+    REASON --> R & P & J & F

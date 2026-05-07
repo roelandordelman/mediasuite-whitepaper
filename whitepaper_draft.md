@@ -2,7 +2,7 @@
 ## Rethinking Access to Audiovisual Heritage
 
 *Draft white paper — Netherlands Institute for Sound and Vision / CLARIAH Media Suite*
-*Version 0.1 — May 2026*
+*Version 0.1.3 — May 2026*
 
 ---
 
@@ -29,8 +29,8 @@ What changes now is the interface layer on top of it.
 
 The shift we are describing is from a set of tools that researchers operate
 to a set of capabilities that an AI agent can orchestrate on a researcher's behalf.
-A researcher asks, in natural language: *I am studying the representation of
-migration in Dutch television news over the last fifty years — where do I start,
+A researcher asks, in natural language: *I am studying how migration has been
+covered in Dutch television news over the past fifty years — where do I start,
 what is available, how have others approached this, and what can I access?*
 The answer to that question currently requires navigating multiple interfaces,
 consulting documentation, understanding collection structures, and knowing which
@@ -654,32 +654,35 @@ the evaluation results and treated as tunable — the evaluation framework exist
 precisely to detect when they need adjustment as the corpus grows or query
 patterns shift.
 
-### Visual similarity — VisXP and the work still to be done
+### Visual similarity — from prototype to production
 
 The VisXP project, co-financed by CLICKNL, developed visual similarity
 capabilities for the Sound & Vision archive: shot-level embeddings that allow
 researchers to find visually similar content given an example image or video
-frame. This work produced real infrastructure — embeddings computed, a similarity
-search prototype demonstrated, the technical pipeline established.
+frame. This work proved the concept — embeddings computed, a similarity search
+prototype demonstrated, the technical pipeline established.
 
-It is frustrating that this remains at a prototype level. The ground work is done.
-The embeddings exist or can be recomputed. What is needed is focused attention to
-move from prototype to production: integrating the visual similarity index into
-the agent tool set alongside the text-based Elasticsearch and SPARQL tools, so
-that a researcher can ask "find me footage that looks like this" and get a
-grounded, source-linked answer. Visual similarity is the capability that most
-clearly demonstrates the multimodal potential of the archive — and it is the one
-that most clearly distinguishes the Media Suite from text-only AI systems. CLIP
-embeddings, which represent images and text in the same vector space and enable
-genuinely cross-modal queries, are the natural next step: embedding a textual
-description and finding visually similar content, or embedding an image and
-finding thematically related spoken content.
+VisXP is no longer actively maintained, and the specific model it used has been
+superseded by more capable approaches. But the core finding stands: visual
+similarity search over audiovisual content is technically feasible and
+demonstrably valuable for heritage research. CLIP embeddings — which represent
+images and text in the same vector space — are the concrete implementation path
+forward. Available via standard model hubs, CLIP enables genuinely cross-modal
+queries: embedding a textual description to find visually similar content, or
+embedding an image to find thematically related spoken material. Several strong
+multilingual variants exist, making the approach viable for Dutch-language
+heritage collections.
 
-The path from here to there is not long. It requires dusting off the VisXP work,
-assessing the current state of the embeddings and index, and making a focused
-investment to bring the capability to a state where it can be exposed as an agent
-tool. The Open Beelden dataset — with its open license and manageable scale — is
-the right place to do this first.
+What is needed is focused attention to build this capability into the agent tool
+set alongside the text-based Elasticsearch and SPARQL tools, so that a researcher
+can ask "find me footage that looks like this" and get a grounded, source-linked
+answer. Visual similarity is the capability that most clearly demonstrates the
+multimodal potential of the archive — and it is the one that most clearly
+distinguishes the Media Suite from text-only AI systems.
+
+The Open Beelden dataset — with its open license and manageable scale — is the
+right place to build this first. It is the investment that makes the difference
+between a text-only demonstrator and a genuinely multimodal one.
 
 ### The MCP server in development
 
@@ -780,6 +783,8 @@ named, callable tool:
 - The documentation knowledge base: `ask_media_suite(question)`
 - The access control layer: `check_access(dataset, user_context)`
 
+![Figure 1: The three-layer agentic architecture. Existing infrastructure assets (bottom) are each exposed as a named MCP tool (middle layer), which an agent reasoning loop (top) calls in whatever combination a researcher's question requires. The same MCP tools serve multiple interfaces — research, public, journalistic, and federated CLARIAH.](figure1.drawio.png)
+
 Each tool is built once and shared across any application that needs it — not
 just the Media Suite chatbot. A future CLARIAH
 tool, a researcher's own local agent, a journalistic application — all can use
@@ -795,9 +800,9 @@ for reuse rather than for a single application.
 
 ### What the agent does — a concrete scenario
 
-The migration research question from Section 1 — *I am studying the representation
-of migration in Dutch television news over the last fifty years — where do I start,
-what is available, how have others approached this, and what can I access?* —
+The migration research question from Section 1 — *I am studying how migration
+has been covered in Dutch television news over the past fifty years — where do I
+start, what is available, how have others approached this, and what can I access?* —
 illustrates what the agent can do when the tool catalogue is in place.
 
 The agent receives the question and reasons about what is needed. It queries
@@ -836,6 +841,8 @@ replacement for the research process.
 
 ### The registry chain — and why it has to be fixed
 
+![Figure 2: The target registry chain. NISV publishes Open Beelden to the NDE Dataset Register with correct DCAT and ODRL metadata; the Media Suite local registry harvests and enriches from NDE; the indexed data feeds the research environment agent tools; DS4CH/Europeana receives from NDE via a standard pipeline. Open Beelden is the first NISV dataset to complete this chain end to end.](figure2.drawio.png)
+
 The scenario above makes one assumption that is not yet true and needs to be
 stated plainly: it assumes that querying the NDE Dataset Register gives a
 reliable, complete picture of what datasets exist in Dutch digital heritage,
@@ -863,22 +870,24 @@ is not a permanent state — it is the gap that the current infrastructure work
 is designed to close, starting with Open Beelden.
 
 At the national level, the Media Suite's local registry — currently implemented
-in CKAN — became a mess over time precisely because no strict policy governed
-how datasets entered it. Some came via NDE. Many came via direct arrangements
-with data providers who had neither the resources nor the immediate incentive
-to register in NDE first. The result is a registry that partially overlaps with
-NDE but is not derived from it — making it unreliable as a foundation for
-automated discovery.
+in CKAN — exists for a straightforward historical reason: when it was built, the
+NDE Dataset Register was not yet authoritative or feature-complete enough to
+serve as the Media Suite's primary collection catalogue. Datasets entered the
+CKAN registry directly, via arrangements with data providers who had neither
+the resources nor a strong incentive to register in NDE first. The registry
+accurately reflects what collections are available in the Media Suite, but it
+is not systematically derived from NDE — which makes it an unreliable foundation
+for automated discovery across the national infrastructure.
 
 This is not a failure of technology, and it is not a failure of NDE. The
 standards, the register, and the network facilities have existed and been
-maintained. It is a failure of institutional follow-through: individual
-institutions — including NISV — did not consistently complete the chain from
-their own data to the national infrastructure. The promise of linked data
-federation has been made in the heritage sector since the early 2010s, and it
-has consistently underdelivered because completing the chain requires ongoing
-institutional discipline at the data provider level, not just the provision of
-shared infrastructure.
+maintained. What did not happen — across the heritage sector, including NISV —
+was a consistent practice of treating NDE registration as the primary step
+rather than an optional parallel publication. The NDE register has matured
+considerably since the CKAN registry was established. The case for routing all
+new dataset registrations through it is now much stronger, and the Open Beelden
+integration is the point at which that practice becomes the norm rather than
+the exception.
 
 The agentic architecture makes the cost of this failure more visible than it has
 ever been. An agent that confidently queries NDE and returns an incomplete picture
@@ -896,10 +905,11 @@ who can access it, and how.
 
 ### Federation: the CLARIAH level and beyond
 
+![Figure 3: The federated agent model. Specialised dataset agents — Media Suite (Sound & Vision broadcasts and Open Beelden), DANS (oral history), KB (newspapers), EYE (film) — are coordinated by a CLARIAH-level agent that synthesises across their responses. Each specialised agent maintains its own accuracy and governance; the coordinating agent does not fabricate answers on any agent's behalf.](figure3.drawio.png)
+
 The scenario above operates at the Media Suite level — one research environment,
-one agent, one researcher. But the research question — *I am studying the
-representation of migration in Dutch media over the last fifty years* — is not a
-Media Suite question. It is a question about Dutch media, which spans Sound &
+one agent, one researcher. But the research question — *I am studying how migration has been covered in Dutch
+media over the past fifty years* — is not a Media Suite question. It is a question about Dutch media, which spans Sound &
 Vision broadcasts, KB newspapers, DANS oral history interviews, EYE film
 collections, and potentially social media data from multiple platforms. No single
 research environment holds all of this.
@@ -994,9 +1004,11 @@ independently deployable agent for a single dataset — is the building block.
 A dataset agent for Open Beelden, for example, would expose:
 - Semantic search over ASR transcripts of the full Open Beelden corpus
 - Structured SPARQL queries over the Open Beelden linked data
-- Visual similarity search over VisXP embeddings of Open Beelden keyframes
+- Visual similarity search over Open Beelden keyframes using CLIP-based embeddings
 - Rights and access information from the NDE registration
 - Provenance and coverage information from Dataset Archaeology
+
+![Figure 4: Anatomy of a dataset agent. Five instrumented components — ASR transcripts, linked data, visual similarity, rights metadata, and provenance — are bundled into a single, independently deployable, MCP-callable agent. The agent can be invoked from the Media Suite research interface, a public-facing interface, or a CLARIAH coordinating agent, without any component needing to be rebuilt per use case.](figure4.drawio.png)
 
 It would be deployable independently, callable via MCP, and usable both within
 the Media Suite and by external applications. When a second dataset agent is
@@ -1128,8 +1140,9 @@ When the Open Beelden chain is complete and working, it becomes the reference
 implementation. Every subsequent dataset added to the Media Suite follows the
 same pattern. Data providers who want their dataset in the Media Suite are shown
 Open Beelden as the model. NDE registration is not optional; it is the entry
-point. The mess that CKAN became does not recur if the governance commitment is
-maintained from the start.
+point. The situation with the existing CKAN registry — built before NDE was mature
+enough to serve as the primary catalogue — does not recur if NDE registration
+is the entry point from the start.
 
 ### The April 2027 deadline — migration as opportunity
 
@@ -1174,12 +1187,15 @@ layer that makes content-based search possible and that enables temporal deep
 links in agent responses. It is also the organisational coordination task that
 needs a named owner and a delivery date.
 
-**3. Visual similarity from prototype to production.** The VisXP work produced
-shot-level embeddings for visual similarity search. Open Beelden is the right
-dataset to move this from prototype to a production agent tool — manageable
-scale, open license, no rights complications. A researcher who can ask "find
-footage that looks like this" and get a grounded, source-linked answer is
-experiencing a capability that no other Dutch heritage interface currently
+**3. Visual similarity from prototype to production.** The VisXP project
+established the proof of concept for visual similarity search over archival AV
+content, but the prototype is no longer actively maintained. The implementation
+path is now clear: CLIP-based embeddings, available via standard model hubs,
+enable cross-modal retrieval that neither requires nor depends on the original
+VisXP infrastructure. Open Beelden is the right dataset to build this first —
+manageable scale, open license, no rights complications. A researcher who can
+ask "find footage that looks like this" and get a grounded, source-linked answer
+is experiencing a capability that no other Dutch heritage interface currently
 offers. This is the investment that needs focused attention.
 
 **4. A public-facing agent interface.** Not a researcher-only tool behind a
@@ -1230,16 +1246,27 @@ proposal for future work. It is a description of work in progress, seen from
 a vantage point that the individual projects do not have — because each project
 sees its own piece, not the whole.
 
-The table below maps the five components the architecture requires to the
-projects and tasks currently building them. The detail behind each mapping is
-in the accompanying project-vision mapping document (`project_vision_mapping_v2.md`).
+*For readers returning to this section directly: the core architectural
+components — agent layer, access control, national dataset catalogue, and
+knowledge graph — were introduced in Section 5 and shown in Figure 1. The
+table below maps these, and the cross-cutting components that support them,
+to the projects currently building each one. The dataset-by-dataset expansion
+model — one well-instrumented dataset agent at a time, each added without
+requiring changes to the previous — is the implementation strategy from
+Section 5 (Figure 4). Open Beelden, described in Section 6, is the first
+dataset agent and the proving ground where the registry chain (Figure 2)
+will first be completed end to end.*
 
-| Architecture component | What builds it |
+The table below maps the eight components the architecture requires to the
+projects currently building them.
+
+| Architecture component | Project work building it |
 |---|---|
 | Agent layer — embedding, vector retrieval, MCP server, agent orchestration | AI experimentation (SSHOC-NL / Macroscope) |
 | Access control — DAB, AAI/SRAM, SANE trusted environment | National Data Flow (SSHOC-NL) |
 | National dataset catalogue — NDE registration, DCAT, ODRL | Open Beelden Integration + National Data Flow |
 | Knowledge graph — entity model, SPARQL query catalogue, RDF | INFINITY (Horizon Europe) |
+| Research tool catalogue — computational methods, automatic SANE provisioning | SSHOC-NL Knowledge Graph (SSHOC-NL) |
 | Applied user scenarios — journalism, oral history, cross-media | HAICu Deep Journalism Lab |
 | Social media corpus — comparative cross-media analysis | Macroscope |
 | Fragment citation — IIIF for AV, proxy fragment access | IIIF Viewer & Image Collections (SSHOC-NL) |
@@ -1250,20 +1277,21 @@ the architecture, and what remains to be done.
 ### The agent layer
 
 The most direct implementation of the vision is already well underway. The
-mediasuite-agent repository — developed as part of the AI experimentation work
-funded by SSHOC-NL and Macroscope — contains an Embeddings API for converting
-text to dense vector representations, a Milvus vector database deployed on
-NISV's OpenShift infrastructure, and an MCP server with agent tools already
-defined: `embed_text`, `query_archive`, `query_milvus`. An Agent API with the
-main orchestration logic is in active development, with a full prototype expected
-by end of Q2 2026 and suitable for initial user testing.
+AI experimentation work, developed jointly within SSHOC-NL and Macroscope,
+has produced a working pipeline: a semantic embedding layer for converting
+queries and collection content into comparable vector representations, a vector
+database deployed on NISV's OpenShift infrastructure, and an MCP server with
+the first agent tools already defined and callable. An orchestration layer —
+the component that receives a researcher's question, decides which tools to
+call, and synthesises a grounded answer — is in active development, with a
+full prototype expected by end of Q2 2026 and suitable for initial user testing.
 
-The embedding model chosen — `multilingual-e5-large-instruct` — was selected
-based on multilingual retrieval benchmarks (MTEB) and tested against Dutch-language
-heritage content. It handles Dutch and English in the same vector space, which
-matters for a corpus spanning decades of Dutch-language broadcasting queried by
-an international research community, and outperformed alternatives on the
-domain-specific evaluation set used during prototype development.
+The embedding model was selected based on multilingual retrieval benchmarks and
+tested against Dutch-language heritage content. It handles Dutch and English in
+the same vector space — important for a corpus spanning decades of Dutch-language
+broadcasting queried by an international research community — and outperformed
+alternatives on the domain-specific evaluation set used during prototype
+development.
 
 The Frozen Sets concept — user-defined, topic-scoped subsets of Media Suite
 content that can be embedded and queried independently via RAG — is confirmed
@@ -1345,15 +1373,36 @@ heritage information across participating institutions, is likewise operational.
 These are not aspirations; they are infrastructure the agent can use now.
 
 What is not yet working is NISV's contribution to that register. As described
-in Section 5, NISV currently contributes to Europeana via EUscreen, bypassing
-NDE. The Open Beelden integration work — Task 2026-012 — is the vehicle for
-closing this gap: publishing the full Open Beelden dataset as linked data via
+in Section 5 (Figure 2), NISV currently contributes to Europeana via EUscreen,
+bypassing NDE. The Open Beelden integration work is the vehicle for closing
+this gap: publishing the full Open Beelden dataset as linked data via
 data.beeldengeluid.nl, registering all sub-collections in the NDE register
 with correct DCAT and ODRL metadata, and ensuring that DS4CH/Europeana receives
 from NDE rather than via a parallel aggregator route.
 
 This is the governance commitment that makes the technical architecture credible.
 The policy is: new datasets follow the chain. Open Beelden is first.
+
+### Fragment citation
+
+IIIF (International Image Interoperability Framework) support for audiovisual
+material is being developed within SSHOC-NL's image and AV collections work.
+For static images, IIIF is already well established in the heritage sector —
+it enables stable, citable references to specific regions of a digitised
+object. Extending this to audiovisual material means the same principle applied
+to time: a stable, citable reference to a specific moment within a video or
+audio item, not just to the item as a whole.
+
+For the agent architecture, this is what turns a retrieved transcript passage
+into a usable citation. A researcher who asks what was said about a topic gets
+not just a text fragment but a link to the exact moment in the broadcast where
+it was said — playable, shareable, and citable in a publication. Combined with
+the timecoded ASR transcripts already in the Elasticsearch index (described in
+Section 4), IIIF fragment references are the interface layer that makes the
+archive's spoken content genuinely accessible rather than merely findable. The
+IIIF work also enables proxy-based access to fragments of rights-managed
+content for authorised researchers, without requiring direct access to the
+underlying files — a meaningful step forward for restricted collections.
 
 ### The knowledge graph
 
@@ -1379,6 +1428,25 @@ and temporal relationships in AV heritage — is a concrete contribution the
 Media Suite team can make to INFINITY's shared knowledge graph design.
 Articulating that contribution concretely, and ensuring active participation
 in the relevant INFINITY work packages, is a near-term priority.
+
+A complementary knowledge graph developed within SSHOC-NL takes a different
+focus: cataloguing the research tools and software methods available for
+computational analysis of heritage collections. Where INFINITY maps cultural
+heritage entities and their relationships, the SSHOC-NL Knowledge Graph maps
+the research landscape — which tools exist, what data types they work with,
+what computational environments they require, and how they connect to specific
+datasets.
+
+For the agentic architecture, this has a concrete application with Open Beelden.
+A researcher who identifies the tools they need for a particular analysis — drawn
+from entries in the SSHOC-NL Knowledge Graph — can have a SANE environment
+automatically provisioned with exactly those tools, with the Open Beelden dataset
+pre-loaded by the DAB. This removes the manual dataset acquisition step from the
+researcher's workflow entirely: the researcher selects tools, the DAB downloads
+the data, the SANE environment is provisioned. The SSHOC-NL Knowledge Graph
+becomes part of the access control and provisioning chain — answering not just
+*can this researcher access this data* but *what research environment do they need
+to work with it*, automatically rather than by manual configuration.
 
 ### The applied user scenarios
 
@@ -1487,12 +1555,22 @@ white paper is that frame. The coordination, and the resourcing, is what comes
 next.
 ## Section 8 — Roadmap
 
-The roadmap for this work is maintained as a living document in the
-accompanying repository (`ROADMAP.md`), with detailed phase descriptions,
-individual checklist items, and a learning log that records what changed and
-why. This section provides the higher-level view: the phased structure, the
-key decision points, and the gates that need to be passed before each phase
-can credibly begin.
+The roadmap for this work is intended to be maintained as a living document
+in this paper's accompanying GitHub repository, with detailed phase
+descriptions, individual checklist items, and a learning log that records what
+changed and why. This section provides the higher-level view: the phased
+structure, the key decision points, and the gates that need to be passed before
+each phase can credibly begin.
+
+*For readers returning to this section directly: the dataset agent concept —
+a well-instrumented, independently deployable, MCP-callable agent for a single
+dataset (Figure 4) — was introduced in Section 5. The registry chain each
+dataset must complete (Figure 2) — NISV to NDE to Media Suite to DS4CH — was
+described in Section 5 and grounded in the Open Beelden case in Section 6.
+The three-layer architecture (Figure 1) — infrastructure assets, MCP tools,
+agent reasoning loop — is what each phase extends. The roadmap adds one
+dataset agent per phase, with gates requiring evaluation evidence before the
+next phase begins.*
 
 The roadmap is organised around the dataset-by-dataset expansion model: each
 phase adds a new dataset agent, with evaluation evidence from the previous
@@ -1520,9 +1598,10 @@ Phase 4 infrastructure transition.
 
 The full chain completed for one open dataset: NDE registration with correct
 DCAT and ODRL metadata, Media Suite index built from harvested linked data,
-ASR transcripts covering the full collection, visual similarity from VisXP
-prototype to production agent tool, public-facing interface without login
-requirement, evaluation framework with published quality metrics.
+ASR transcripts covering the full collection, visual similarity built using
+CLIP-based embeddings and deployed as a production agent tool, public-facing
+interface without login requirement, evaluation framework with published quality
+metrics.
 
 The ambition for this phase is to have the Open Beelden dataset agent
 working well before any external user testing begins — the evaluation evidence
@@ -1555,13 +1634,13 @@ shared interface.
 
 ### Phase 4 — Prototype integration and first cross-dataset queries
 
-The personal prototype repositories — developed to prove the architecture and
-ground the thinking in this white paper — are consolidated into the team's
-production infrastructure on NISV OpenShift and beeldengeluid GitHub. This is
-not a migration of the team's ongoing work, which is already being built on
-institutional infrastructure, but the integration of the prototype's evaluation
-framework, knowledge graph patterns, and MCP server designs into the shared
-codebase. The first cross-dataset queries then become possible: a researcher
+The prototype repositories developed by this paper's author — built as
+exploratory proof-of-concept work to validate the architecture described here
+— are consolidated into the team's production infrastructure on NISV OpenShift
+and beeldengeluid GitHub. This is not a migration of the team's ongoing work,
+which is already being built on institutional infrastructure, but the
+integration of the prototype's evaluation framework, knowledge graph patterns,
+and MCP server designs into the shared codebase. The first cross-dataset queries then become possible: a researcher
 question that spans the Open Beelden agent and the television news agent,
 synthesised by a coordinating layer.
 
@@ -1574,16 +1653,22 @@ on.
 **Gate for this phase being the right moment:** a natural trigger is when the
 first external researcher group is ready to use the system — not before, because
 migration under production load is harder than migration before deployment, but
-not after, because running production traffic on personal infrastructure is
-not sustainable.
+not after, because running production traffic on prototype infrastructure
+outside the institutional stack is not sustainable.
 
 ### Phase 5 — Knowledge graph at scale and CLARIAH federation
 
-The INFINITY project provides the production-scale knowledge graph. The NDE
-register, properly populated by phases 2 and 3, is the catalogue a CLARIAH-level
-coordinating agent can query. The Media Suite agent becomes one component in a
-federated network — the first time the architecture described in Section 5 is
-actually tested at scale rather than demonstrated in a prototype.
+The INFINITY project provides the production-scale content knowledge graph. The
+NDE register, properly populated by phases 2 and 3, is the catalogue a
+CLARIAH-level coordinating agent can query. The Media Suite agent becomes one
+component in a federated network — the first time the architecture described in
+Section 5 is actually tested at scale rather than demonstrated in a prototype.
+
+The SSHOC-NL Knowledge Graph adds the tool layer: researchers browsing available
+computational methods, with automatic SANE provisioning and DAB-mediated dataset
+download as the delivery mechanism. By this phase, the Open Beelden precedent —
+tool selection from the SSHOC-NL KG triggering automatic environment setup — can
+be extended to additional NISV collections as they enter the NDE chain.
 
 Whether a CLARIAH coordinating agent actually exists by this point, or whether
 it is being built in parallel, is an open question. What is not open is that
@@ -1622,8 +1707,8 @@ the risk that requires active management, not just technical implementation.
 
 **The resourcing gap.** The team is currently under-resourced relative to the
 scope of what is being built across multiple funded projects simultaneously.
-The evaluation framework, the MCP server coordination, the VisXP revival, the
-Open Beelden ASR completion — each of these needs sustained attention from
+The evaluation framework, the MCP server coordination, the visual similarity
+build, the Open Beelden ASR completion — each of these needs sustained attention from
 someone with the right combination of technical and domain knowledge. The
 white paper is partly intended to make this case: the architectural vision is
 credible and the project portfolio is aligned, but the coordination and
@@ -1636,11 +1721,13 @@ evaluation evidence is strong enough to guide the design choices — not before,
 to avoid integrating something that needs further iteration, and not long after,
 to avoid the prototype diverging from the production direction.
 
-**The visual similarity gap.** VisXP produced real infrastructure that has
-been left at prototype stage. If the Open Beelden dataset agent launches
-without visual similarity, it demonstrates a diminished version of the
-architecture's potential. The decision to invest in moving VisXP to production
-needs to be made early in phase 2, not deferred to phase 3.
+**The visual similarity gap.** The VisXP project established visual similarity
+as technically feasible for archival AV content, but the prototype is no longer
+maintained. The decision to build CLIP-based visual similarity into the Open
+Beelden agent — using current models available via standard model hubs — needs
+to be made early in phase 2, not deferred to phase 3. If the Open Beelden
+dataset agent launches without visual similarity, it demonstrates a diminished
+version of the architecture's potential.
 
 ### This roadmap is a living document
 
@@ -1662,6 +1749,17 @@ forever unchanged. It is to produce a document that is honest about what is
 known, clear about what is uncertain, and updated as the uncertainty resolves.
 ## Section 9 — Priorities, next steps, and what this enables
 
+*For readers returning to this section directly: the three priorities below
+are direct consequences of the architectural commitments made earlier in this
+document. Priority 1 — completing the Open Beelden chain — delivers the
+dataset agent proving ground described in Section 6, including the full
+registry chain (Figure 2) and the five-component dataset agent structure
+(Figure 4). Priority 2 — coordinating the MCP server — builds the connective
+tool layer shown in Figure 1 (Section 5). Priority 3 — the evaluation
+framework — makes the responsible AI design principles from Section 5
+operational rather than aspirational. Section 8 sets out the phased roadmap
+within which these priorities sit.*
+
 ### The three things that matter most right now
 
 Across the sections of this document, several priorities emerge. Not everything
@@ -1671,9 +1769,9 @@ decisions made now have the most consequence for everything that follows.
 **1. Complete the Open Beelden chain — properly.**
 This is the work that makes everything else credible. NDE registration with
 correct DCAT and ODRL metadata. ASR transcripts across the full collection,
-with a named owner and a delivery date. VisXP visual similarity moved from
-prototype to production agent tool — a decision that needs to be made now,
-not deferred. A public-facing interface with a published evaluation framework.
+with a named owner and a delivery date. Visual similarity built into the Open
+Beelden agent using CLIP-based embeddings — a decision that needs to be made
+now, not deferred. A public-facing interface with a published evaluation framework.
 This is not one project among many; it is the proof of concept that the
 entire architecture rests on.
 
@@ -1700,9 +1798,6 @@ skills. This role needs to be filled.
 
 ### What the team needs to do
 
-For the team reading this document, the priorities translate into concrete
-next steps:
-
 These priorities require trade-offs. Not everything currently in the backlog
 can proceed at the same pace. The evaluation framework and MCP coordination are
 coordination investments that pay dividends across all projects — which is
@@ -1714,8 +1809,8 @@ credible.
 - Confirm a named owner for the Open Beelden ASR completion, with a delivery
   date, covering all sub-collections including Natuurbeelden, VPRO, EYE, and
   Yad Vashem
-- Make the VisXP investment decision: prototype to production for Open Beelden,
-  or explicitly defer with a stated reason
+- Make the visual similarity decision: implement CLIP-based visual similarity
+  for Open Beelden, or explicitly defer with a stated reason
 - Agree on the MCP server design standard before additional wrappers are built
 
 **In the next quarter:**
@@ -1792,16 +1887,21 @@ The architectural thinking in this document is grounded in practical prototype
 work: a working AI retrieval system over the Media Suite's documentation, with
 a knowledge graph layer, dual retrieval paths, a structured evaluation
 framework, and a chat interface deployable on the community site. It was built
-as a personal project — to connect the dots through direct experience, not
-through reading about it — and it produced lessons that could not have been
-anticipated from the architecture documents alone.
+by this paper's author as exploratory proof-of-concept work — undertaken to
+connect the dots through direct experience rather than through reading about it,
+and separate from any specific funded project deliverable. The two repositories
+involved are publicly accessible and will be integrated into the team's
+institutional infrastructure as part of Phase 4.
 
-Among those lessons: retrieval quality is only as good as the test set used
-to measure it, and the test set is only as good as the domain knowledge used
-to construct it. The governance failures that have plagued linked data
+It produced lessons that could not have been anticipated from the architecture
+documents alone. Retrieval quality is only as good as the test set used to
+measure it, and the test set is only as good as the domain knowledge used to
+construct it. The governance failures that have plagued linked data
 federation are real, not theoretical, and naming them honestly is the
-prerequisite for doing better. The MCP protocol makes federation genuinely
-tractable in a way that previous standards did not. And the gap between a
+prerequisite for doing better. The MCP protocol adds a tool-call layer above
+existing standards — SPARQL, IIIF, REST APIs — that makes agent-mediated
+access tractable: not by replacing those standards, but by giving AI agents a
+consistent, discoverable interface to invoke them. And the gap between a
 working prototype and production infrastructure is primarily a governance and
 resourcing gap, not a technical one.
 
@@ -1812,3 +1912,13 @@ institutional commitment to see it through — dataset by dataset, evaluation
 by evaluation, chain link by chain link — until the federation that the
 heritage sector has been promising itself for twenty years finally materialises,
 one working system at a time.
+## Revision history
+
+| Version | Date | Changes |
+|---|---|---|
+| 0.1.5 | May 2026 | Sections 7, 8, 9: precision and consistency revision — orientation reminder updated; prototype/personal-project language clarified for external readers throughout Phases 1, 4, and final note; ROADMAP.md reference softened; MCP/federation claim narrowed; "What the team needs to do" structure fixed. Issue [#6](https://github.com/roelandordelman/mediasuite-whitepaper/issues/6). |
+| 0.1.4 | May 2026 | Visual similarity: VisXP framing updated throughout to acknowledge prototype is superseded, CLIP-based embeddings positioned as path forward. SSHOC-NL Knowledge Graph added to Section 7 and Phase 5. Issues [#1](https://github.com/roelandordelman/mediasuite-whitepaper/issues/1), [#2](https://github.com/roelandordelman/mediasuite-whitepaper/issues/2). |
+| 0.1.3 | May 2026 | Section 7: removed internal filenames and tool identifiers; fixed table column header; added fragment citation subsection. Issue [#4](https://github.com/roelandordelman/mediasuite-whitepaper/issues/4). |
+| 0.1.2 | May 2026 | Rephrased research question (three occurrences); reframed CKAN registry history in Sections 5 and 6. Issues [#3](https://github.com/roelandordelman/mediasuite-whitepaper/issues/3), [#5](https://github.com/roelandordelman/mediasuite-whitepaper/issues/5). |
+| 0.1.1 | May 2026 | Added four architectural diagrams (Figures 1–4); added orientation reminders at the opening of Sections 7, 8, and 9. Issue [#7](https://github.com/roelandordelman/mediasuite-whitepaper/issues/7). |
+| 0.1 | May 2026 | Initial draft. Sections 1–9 complete. |

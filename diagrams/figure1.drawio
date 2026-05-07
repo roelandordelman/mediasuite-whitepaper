@@ -1,0 +1,156 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Figure 1" id="fig1">
+    <mxGraphModel dx="1422" dy="762" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="840" pageHeight="640" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ===== BAND BACKGROUNDS ===== -->
+
+        <!-- Layer 1 — Infrastructure (bottom) -->
+        <mxCell id="b1" value="" style="rounded=2;arcSize=4;fillColor=#EEF5FC;strokeColor=#004A87;strokeWidth=2;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="10" y="460" width="820" height="140" as="geometry"/>
+        </mxCell>
+        <!-- Layer 2 — MCP Tools -->
+        <mxCell id="b2" value="" style="rounded=2;arcSize=4;fillColor=#E5F9FB;strokeColor=#00B2CA;strokeWidth=2;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="10" y="300" width="820" height="120" as="geometry"/>
+        </mxCell>
+        <!-- Layer 3 — Agent -->
+        <mxCell id="b3" value="" style="rounded=2;arcSize=4;fillColor=#004A87;strokeColor=#003266;strokeWidth=2;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="10" y="190" width="820" height="80" as="geometry"/>
+        </mxCell>
+        <!-- Layer 4 — Interfaces (top) -->
+        <mxCell id="b4" value="" style="rounded=2;arcSize=4;fillColor=#F0F7FF;strokeColor=#004A87;strokeWidth=2;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="10" y="30" width="820" height="120" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== BAND LABELS (left edge of each band) ===== -->
+        <mxCell id="l1" value="&lt;b&gt;Layer 1&lt;/b&gt;&lt;br/&gt;Infrastructure&lt;br/&gt;Assets" style="text;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#004A87;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="15" y="490" width="80" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="l2" value="&lt;b&gt;Layer 2&lt;/b&gt;&lt;br/&gt;MCP Tool&lt;br/&gt;Layer" style="text;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#00B2CA;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="15" y="330" width="80" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="l3" value="&lt;b&gt;Layer 3&lt;/b&gt;&lt;br/&gt;Agent&lt;br/&gt;Reasoning" style="text;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#FFFFFF;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="15" y="205" width="80" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="l4" value="&lt;b&gt;Layer 4&lt;/b&gt;&lt;br/&gt;User&lt;br/&gt;Interfaces" style="text;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#004A87;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="15" y="60" width="80" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== INFRASTRUCTURE BOXES (6) ===== -->
+        <!-- x positions: 105, 245, 385, 525, 665, 700 — each w=130, gap=10 -->
+        <mxCell id="i1" value="&lt;b&gt;Elasticsearch&lt;/b&gt;&lt;br/&gt;ASR transcripts&lt;br/&gt;+ timecodes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#004A87;strokeWidth=1.5;fontColor=#1A3A5C;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="105" y="480" width="120" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="i2" value="&lt;b&gt;SPARQL endpoint&lt;/b&gt;&lt;br/&gt;linked data&lt;br/&gt;data.beeldengeluid.nl" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#004A87;strokeWidth=1.5;fontColor=#1A3A5C;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="237" y="480" width="120" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="i3" value="&lt;b&gt;NDE Dataset&lt;/b&gt;&lt;br/&gt;&lt;b&gt;Register&lt;/b&gt;&lt;br/&gt;national catalogue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#004A87;strokeWidth=1.5;fontColor=#1A3A5C;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="369" y="480" width="120" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="i4" value="&lt;b&gt;SURFconext&lt;/b&gt;&lt;br/&gt;SRAM · DAB · SANE&lt;br/&gt;access control" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#004A87;strokeWidth=1.5;fontColor=#1A3A5C;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="501" y="480" width="120" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="i5" value="&lt;b&gt;VisXP&lt;/b&gt;&lt;br/&gt;visual similarity&lt;br/&gt;embeddings" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#004A87;strokeWidth=1.5;fontColor=#1A3A5C;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="633" y="480" width="120" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="i6" value="&lt;b&gt;Documentation&lt;/b&gt;&lt;br/&gt;Help · tutorials&lt;br/&gt;data stories" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#004A87;strokeWidth=1.5;fontColor=#1A3A5C;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="700" y="480" width="120" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== MCP TOOL BOXES (7) ===== -->
+        <!-- x: 105, 215, 325, 435, 545, 655, 700 — each w=100, gap=10 -->
+        <mxCell id="t1" value="&lt;b&gt;search_archive()&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00B2CA;strokeColor=#007A8F;strokeWidth=1.5;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="105" y="318" width="100" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="t2" value="&lt;b&gt;query_knowledge_graph()&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00B2CA;strokeColor=#007A8F;strokeWidth=1.5;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="215" y="318" width="100" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="t3" value="&lt;b&gt;find_datasets()&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00B2CA;strokeColor=#007A8F;strokeWidth=1.5;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="325" y="318" width="100" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="t4" value="&lt;b&gt;semantic_search()&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00B2CA;strokeColor=#007A8F;strokeWidth=1.5;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="435" y="318" width="100" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="t5" value="&lt;b&gt;find_visually_similar()&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00B2CA;strokeColor=#007A8F;strokeWidth=1.5;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="545" y="318" width="100" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="t6" value="&lt;b&gt;ask_media_suite()&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00B2CA;strokeColor=#007A8F;strokeWidth=1.5;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="655" y="318" width="100" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="t7" value="&lt;b&gt;check_access()&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00B2CA;strokeColor=#007A8F;strokeWidth=1.5;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="700" y="318" width="100" height="56" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== AGENT BOX ===== -->
+        <mxCell id="ag" value="&lt;b&gt;Agent Reasoning Loop&lt;/b&gt; — decomposes question · selects tools · calls in sequence · synthesises · returns grounded answer with sources" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#004A87;strokeColor=#003266;strokeWidth=0;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="105" y="203" width="720" height="56" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== INTERFACE BOXES (4) ===== -->
+        <mxCell id="if1" value="&lt;b&gt;Research&lt;/b&gt;&lt;br/&gt;Media Suite" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#004A87;strokeWidth=1.5;fontColor=#004A87;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="105" y="50" width="160" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="if2" value="&lt;b&gt;Public&lt;/b&gt;&lt;br/&gt;Open Beelden agent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#004A87;strokeWidth=1.5;fontColor=#004A87;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="295" y="50" width="160" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="if3" value="&lt;b&gt;Journalism&lt;/b&gt;&lt;br/&gt;Deep Journalism Lab" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#004A87;strokeWidth=1.5;fontColor=#004A87;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="485" y="50" width="160" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="if4" value="&lt;b&gt;Federated&lt;/b&gt;&lt;br/&gt;CLARIAH agent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#004A87;strokeWidth=1.5;fontColor=#004A87;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="665" y="50" width="160" height="85" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== ARROWS: Infrastructure → MCP ===== -->
+        <mxCell id="a1" value="" style="endArrow=block;endFill=1;strokeColor=#004A87;strokeWidth=1.5;" edge="1" source="i1" target="t1" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a2" value="" style="endArrow=block;endFill=1;strokeColor=#004A87;strokeWidth=1.5;" edge="1" source="i2" target="t2" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a3" value="" style="endArrow=block;endFill=1;strokeColor=#004A87;strokeWidth=1.5;" edge="1" source="i3" target="t3" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a4" value="" style="endArrow=block;endFill=1;strokeColor=#004A87;strokeWidth=1.5;" edge="1" source="i4" target="t7" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a5" value="" style="endArrow=block;endFill=1;strokeColor=#004A87;strokeWidth=1.5;" edge="1" source="i5" target="t5" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a6" value="" style="endArrow=block;endFill=1;strokeColor=#004A87;strokeWidth=1.5;" edge="1" source="i6" target="t4" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a7" value="" style="endArrow=block;endFill=1;strokeColor=#004A87;strokeWidth=1.5;" edge="1" source="i6" target="t6" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== ARROWS: MCP → Agent ===== -->
+        <mxCell id="a10" value="" style="endArrow=block;endFill=1;strokeColor=#00B2CA;strokeWidth=1.5;" edge="1" source="t1" target="ag" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a11" value="" style="endArrow=block;endFill=1;strokeColor=#00B2CA;strokeWidth=1.5;" edge="1" source="t4" target="ag" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a12" value="" style="endArrow=block;endFill=1;strokeColor=#00B2CA;strokeWidth=1.5;" edge="1" source="t7" target="ag" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== ARROWS: Agent → Interfaces ===== -->
+        <mxCell id="a20" value="" style="endArrow=block;endFill=1;strokeColor=#FFFFFF;strokeWidth=1.5;" edge="1" source="ag" target="if1" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a21" value="" style="endArrow=block;endFill=1;strokeColor=#FFFFFF;strokeWidth=1.5;" edge="1" source="ag" target="if2" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a22" value="" style="endArrow=block;endFill=1;strokeColor=#FFFFFF;strokeWidth=1.5;" edge="1" source="ag" target="if3" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a23" value="" style="endArrow=block;endFill=1;strokeColor=#FFFFFF;strokeWidth=1.5;" edge="1" source="ag" target="if4" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

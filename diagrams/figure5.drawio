@@ -1,0 +1,66 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Figure 5" id="fig5">
+    <mxGraphModel dx="1422" dy="762" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1400" pageHeight="340" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Phase 1 — Complete -->
+        <mxCell id="2" value="&lt;b&gt;Phase 1 ✓&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Documentation&lt;br/&gt;knowledge base&lt;br/&gt;&lt;br/&gt;&lt;font style='font-size:9px;'&gt;Hit@10: 86–100%&lt;br/&gt;Deployable now&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#4CAF50;strokeWidth=2;fontColor=#2E7D32;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="20" y="60" width="160" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- Phase 2 — Active -->
+        <mxCell id="3" value="&lt;b&gt;Phase 2 ◉&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Open Beelden&lt;br/&gt;dataset agent&lt;br/&gt;&lt;br/&gt;&lt;font style='font-size:9px;' color='#AACCEE'&gt;Deadline: Apr 2027&lt;br/&gt;Current focus&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#004A87;strokeColor=#003266;strokeWidth=2;fontColor=#FFFFFF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="220" y="60" width="160" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- Phase 3 -->
+        <mxCell id="4" value="&lt;b&gt;Phase 3&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Broadcast &amp;amp;&lt;br/&gt;television news&lt;br/&gt;agent&lt;br/&gt;&lt;br/&gt;&lt;font style='font-size:9px;'&gt;restricted access&lt;br/&gt;SURFconext / DAB&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F6F8;strokeColor=#004A87;strokeWidth=1.5;fontColor=#1A3A5C;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="420" y="60" width="160" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- Phase 4 -->
+        <mxCell id="5" value="&lt;b&gt;Phase 4&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Cross-dataset&lt;br/&gt;queries &amp;amp;&lt;br/&gt;prototype&lt;br/&gt;integration&lt;br/&gt;&lt;br/&gt;&lt;font style='font-size:9px;'&gt;production infra&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F6F8;strokeColor=#004A87;strokeWidth=1.5;fontColor=#1A3A5C;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="620" y="60" width="160" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- Phase 5 -->
+        <mxCell id="6" value="&lt;b&gt;Phase 5&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Knowledge graph&lt;br/&gt;at scale &amp;amp;&lt;br/&gt;CLARIAH&lt;br/&gt;federation&lt;br/&gt;&lt;br/&gt;&lt;font style='font-size:9px;'&gt;INFINITY · NDE&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F6F8;strokeColor=#004A87;strokeWidth=1.5;fontColor=#1A3A5C;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="820" y="60" width="160" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- Phase 6 -->
+        <mxCell id="7" value="&lt;b&gt;Phase 6&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;External user&lt;br/&gt;evaluation&lt;br/&gt;&lt;br/&gt;&lt;font style='font-size:9px;'&gt;independent&lt;br/&gt;researchers&lt;br/&gt;published results&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F6F8;strokeColor=#004A87;strokeWidth=1.5;fontColor=#1A3A5C;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="60" width="160" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- Phase 7 -->
+        <mxCell id="8" value="&lt;b&gt;Phase 7&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Reference model&lt;br/&gt;for other&lt;br/&gt;institutions&lt;br/&gt;&lt;br/&gt;&lt;font style='font-size:9px;'&gt;NDE chain · MCP&lt;br/&gt;eval framework&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F6F8;strokeColor=#004A87;strokeWidth=1.5;fontColor=#1A3A5C;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="60" width="160" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- Connecting arrows with gate labels -->
+        <mxCell id="10" value="Gate: evaluation evidence" style="endArrow=block;endFill=1;strokeColor=#4CAF50;strokeWidth=1.5;fontColor=#2E7D32;fontSize=8;fontStyle=1;align=center;verticalAlign=bottom;" edge="1" source="2" target="3" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="11" value="Gate: external user feedback" style="endArrow=block;endFill=1;strokeColor=#004A87;strokeWidth=1.5;fontColor=#004A87;fontSize=8;fontStyle=1;align=center;verticalAlign=bottom;" edge="1" source="3" target="4" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="12" value="Gate: DAB/SANE tested" style="endArrow=block;endFill=1;strokeColor=#004A87;strokeWidth=1.5;fontColor=#004A87;fontSize=8;fontStyle=1;align=center;verticalAlign=bottom;" edge="1" source="4" target="5" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="13" value="" style="endArrow=block;endFill=1;strokeColor=#004A87;strokeWidth=1.5;" edge="1" source="5" target="6" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="14" value="" style="endArrow=block;endFill=1;strokeColor=#004A87;strokeWidth=1.5;" edge="1" source="6" target="7" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="15" value="" style="endArrow=block;endFill=1;strokeColor=#004A87;strokeWidth=1.5;" edge="1" source="7" target="8" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

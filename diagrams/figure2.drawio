@@ -1,0 +1,95 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Figure 2" id="fig2">
+    <mxGraphModel dx="1422" dy="762" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1100" pageHeight="660" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Column headers -->
+        <mxCell id="2" value="&lt;b&gt;Current state — chain is broken ⚠&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#FF9800;strokeWidth=2;fontColor=#E65100;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="30" y="30" width="470" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="3" value="&lt;b&gt;Target state — chain completed (Open Beelden first) ✓&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#4CAF50;strokeWidth=2;fontColor=#2E7D32;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="600" y="30" width="470" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Vertical divider -->
+        <mxCell id="4" value="" style="line;strokeColor=#CCCCCC;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="548" y="20" width="0" height="620" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== LEFT COLUMN — Current state ===== -->
+
+        <!-- NISV (left) -->
+        <mxCell id="10" value="&lt;b&gt;NISV collections&lt;/b&gt;&lt;br/&gt;data.beeldengeluid.nl" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#888888;strokeWidth=1.5;fontColor=#333333;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="155" y="130" width="220" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- EUscreen bypass path → DS4CH -->
+        <mxCell id="11" value="&lt;b&gt;DS4CH / Europeana&lt;/b&gt;&lt;br/&gt;receives via EUscreen aggregator" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#FF9800;strokeWidth=1.5;fontColor=#E65100;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="300" y="310" width="200" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- CKAN (broken) -->
+        <mxCell id="12" value="&lt;b&gt;Media Suite local registry&lt;/b&gt;&lt;br/&gt;(CKAN) ⚠ incomplete, inconsistent&lt;br/&gt;not derived from NDE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#FF9800;strokeWidth=1.5;fontColor=#E65100;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="30" y="380" width="220" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- NDE (missing in left column) -->
+        <mxCell id="13" value="NDE Dataset Register&lt;br/&gt;&lt;font color='#FF9800'&gt;not populated by NISV&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#CCCCCC;strokeWidth=1.5;fontColor=#999999;fontSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="155" y="250" width="220" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Left arrows -->
+        <mxCell id="14" value="via EUscreen&lt;br/&gt;(bypasses NDE)" style="endArrow=block;endFill=1;strokeColor=#FF9800;strokeWidth=1.5;dashed=1;fontColor=#E65100;fontSize=8;fontStyle=1;" edge="1" source="10" target="11" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="15" value="direct arrangements&lt;br/&gt;(not via NDE)" style="endArrow=block;endFill=1;strokeColor=#FF9800;strokeWidth=1.5;dashed=1;fontColor=#E65100;fontSize=8;fontStyle=1;" edge="1" source="10" target="12" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== RIGHT COLUMN — Target state ===== -->
+
+        <!-- NISV Open Beelden (right) -->
+        <mxCell id="20" value="&lt;b&gt;NISV / Open Beelden&lt;/b&gt;&lt;br/&gt;data.beeldengeluid.nl" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#004A87;strokeWidth=1.5;fontColor=#1A3A5C;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="715" y="130" width="220" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- NDE Dataset Register (right) -->
+        <mxCell id="21" value="&lt;b&gt;NDE Dataset Register&lt;/b&gt;&lt;br/&gt;DCAT + ODRL metadata" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00B2CA;strokeColor=#007A8F;strokeWidth=2;fontColor=#FFFFFF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="715" y="270" width="220" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Media Suite registry (right) -->
+        <mxCell id="22" value="&lt;b&gt;Media Suite local registry&lt;/b&gt;&lt;br/&gt;harvested from NDE&lt;br/&gt;enriched with integration detail" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#004A87;strokeColor=#003266;strokeWidth=2;fontColor=#FFFFFF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="615" y="420" width="220" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Research environment (right) -->
+        <mxCell id="23" value="&lt;b&gt;Research environment&lt;/b&gt;&lt;br/&gt;agent tools · Media Suite" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#004A87;strokeColor=#003266;strokeWidth=2;fontColor=#FFFFFF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="615" y="560" width="220" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- DS4CH (right) -->
+        <mxCell id="24" value="&lt;b&gt;DS4CH / Europeana&lt;/b&gt;&lt;br/&gt;receives from NDE&lt;br/&gt;standard pipeline" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#4CAF50;strokeWidth=1.5;fontColor=#2E7D32;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="870" y="420" width="180" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Right arrows -->
+        <mxCell id="25" value="publishes DCAT + ODRL" style="endArrow=block;endFill=1;strokeColor=#004A87;strokeWidth=2;fontColor=#004A87;fontSize=8;fontStyle=1;" edge="1" source="20" target="21" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="26" value="harvested + enriched" style="endArrow=block;endFill=1;strokeColor=#004A87;strokeWidth=2;fontColor=#004A87;fontSize=8;fontStyle=1;" edge="1" source="21" target="22" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="27" value="indexed" style="endArrow=block;endFill=1;strokeColor=#004A87;strokeWidth=2;fontColor=#004A87;fontSize=8;fontStyle=1;" edge="1" source="22" target="23" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="28" value="standard pipeline" style="endArrow=block;endFill=1;strokeColor=#4CAF50;strokeWidth=1.5;fontColor=#2E7D32;fontSize=8;fontStyle=1;" edge="1" source="21" target="24" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

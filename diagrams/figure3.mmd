@@ -1,0 +1,18 @@
+flowchart TB
+    Q["Researcher question\n'Migration in Dutch media over 50 years'"]
+
+    CLARIAH["CLARIAH coordinating agent\nclariah.nl\nSynthesises across specialised agents"]
+
+    subgraph agents["Specialised dataset agents — each authoritative for its own domain"]
+        direction LR
+        MS["Media Suite agent\nSound & Vision broadcasts\nOpen Beelden"]
+        DANS["DANS agent\nOral history\nresearch data"]
+        KB["KB agent\nNewspapers\nprint media"]
+        EYE["EYE agent\nFilm heritage"]
+    end
+
+    Q --> CLARIAH
+    CLARIAH <-->|"MCP"| MS
+    CLARIAH <-->|"MCP"| DANS
+    CLARIAH <-->|"MCP"| KB
+    CLARIAH <-->|"MCP"| EYE

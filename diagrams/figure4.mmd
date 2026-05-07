@@ -1,0 +1,18 @@
+flowchart TB
+    subgraph agent["Open Beelden dataset agent\n(independently deployable, MCP-callable)"]
+        direction LR
+        ASR["ASR transcripts\nElasticsearch · timecoded"]
+        LD["Linked data\nSPARQL endpoint"]
+        VS["Visual similarity\nVisXP embeddings"]
+        RM["Rights metadata\nNDE · ODRL"]
+        PR["Provenance & coverage\nDataset Archaeology"]
+    end
+
+    MCP["MCP protocol"]
+
+    agent -->|"exposes via"| MCP
+
+    MCP --> R["Media Suite\nresearch interface"]
+    MCP --> P["Public\nOpen Beelden interface"]
+    MCP --> C["CLARIAH\ncoordinating agent"]
+    MCP --> X["Any future\nMCP client"]

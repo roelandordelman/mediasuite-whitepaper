@@ -1,0 +1,22 @@
+flowchart LR
+    subgraph now["Current state — chain is broken"]
+        direction TB
+        N1["NISV collections\ndata.beeldengeluid.nl"]
+        EU1["DS4CH / Europeana"]
+        CK["Media Suite\nlocal registry (CKAN)\n⚠ incomplete, inconsistent"]
+        N1 -. "via EUscreen aggregator\nbypasses NDE" .-> EU1
+        N1 -. "direct arrangements\nnot via NDE" .-> CK
+    end
+
+    subgraph target["Target state — chain completed (Open Beelden first)"]
+        direction TB
+        N2["NISV / Open Beelden\ndata.beeldengeluid.nl"]
+        NDE2["NDE Dataset Register\nDCAT + ODRL metadata"]
+        MS["Media Suite\nlocal registry\nharvested from NDE"]
+        RE["Research environment\nagent tools"]
+        EU2["DS4CH / Europeana"]
+        N2 -->|"publishes"| NDE2
+        NDE2 -->|"harvested + enriched"| MS
+        MS -->|"indexed"| RE
+        NDE2 -->|"standard pipeline"| EU2
+    end

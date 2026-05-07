@@ -1,0 +1,15 @@
+flowchart LR
+    P1["Phase 1 ✓\nDocumentation\nknowledge base\nHit@10: 86–100%"]
+    P2["Phase 2 ◉\nOpen Beelden\ndataset agent\nDeadline: Apr 2027"]
+    P3["Phase 3\nBroadcast &\ntelevision news\nagent\n(restricted access)"]
+    P4["Phase 4\nCross-dataset\nqueries &\nprototype\nintegration"]
+    P5["Phase 5\nKnowledge graph\nat scale &\nCLARIAH\nfederation"]
+    P6["Phase 6\nExternal user\nevaluation"]
+    P7["Phase 7\nReference model\nfor other\ninstitutions"]
+
+    P1 -->|"Gate: evaluation\nevidence"| P2
+    P2 -->|"Gate: external\nuser feedback"| P3
+    P3 -->|"Gate: DAB/SANE\ntested"| P4
+    P4 --> P5
+    P5 --> P6
+    P6 --> P7
