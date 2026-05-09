@@ -1,7 +1,7 @@
 PANDOC    = pandoc
 SOURCE    = whitepaper_draft.md
 TEMPLATE  = mediasuite.latex
-OUTPUT    = mediasuite_whitepaper_v0.1.5.pdf
+OUTPUT    = mediasuite_whitepaper_v0.1.6.pdf
 DOCS      = docs
 TMPFILE   = /tmp/whitepaper_for_pdf.md
 DRAWIO    = /Applications/draw.io.app/Contents/MacOS/draw.io

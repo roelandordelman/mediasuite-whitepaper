@@ -5,6 +5,23 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [0.1.6] — 2026-05-09
+
+### Added
+- Appendix: "Furhat Research Platform: Human-Archive Interaction" — concept
+  documentation for a separate research initiative connecting a Furhat social
+  robot to the Media Suite agent infrastructure. Covers technical architecture,
+  incremental build milestones, research dimensions (adult users, children, HRI
+  methodology), related research context, collaboration targets, and student
+  project framing. Status: concept phase, earliest start Q4 2026.
+
+### Changed
+- Appendix: VisXP references made consistent with main text framing — VisXP
+  named as the groundwork project; CLIP-based implementation positioned as the
+  production path forward.
+
+---
+
 ## [0.1.5] — 2026-05-07
 
 ### Changed

@@ -1912,10 +1912,196 @@ institutional commitment to see it through — dataset by dataset, evaluation
 by evaluation, chain link by chain link — until the federation that the
 heritage sector has been promising itself for twenty years finally materialises,
 one working system at a time.
+## Appendix — Furhat Research Platform: Human-Archive Interaction
+
+*This appendix documents a separate research initiative, distinct from the main
+Media Suite agentic roadmap. It is included here as a reference for future
+development and potential student projects.*
+
+### The concept
+
+A Furhat social robot connected to the Media Suite agent infrastructure,
+paired with a large display screen, creates an experimental platform for
+studying human interaction with AI-assisted archival access. The system
+works as follows: a user speaks to the robot ("what can I find about the
+1953 floods?"), the robot transcribes via Whisper, the Media Suite agent
+searches the archive, relevant video footage plays fullscreen on the screen
+behind the robot, and the robot responds verbally with contextual information.
+The user can then ask follow-up questions about the playing video ("what city
+is mentioned here?"), triggering entity extraction from the ASR transcript and
+new searches. The system is multimodal, conversational, and grounded in real
+archival content.
+
+### Why this is now buildable
+
+The technical gap that made this impossible before the AI revolution was the
+natural language interface, semantic search, and video QA layer. The archive
+infrastructure and domain expertise were always present at Sound and Vision.
+Those gaps are now closed:
+
+- **Natural language interface** — the existing Media Suite agent handles
+  conversational queries in Dutch and English
+- **Semantic search with timecodes** — Elasticsearch index with ASR transcripts
+  at sentence and word level; fragment-level retrieval already works
+- **Video QA** — ASR transcripts cover spoken content; CLIP embeddings cover
+  visual content; vision models (GPT-4o, Claude) handle frame-level visual QA
+- **Entity extraction for follow-up** — LLM-based NER over the current video
+  transcript enables "find more footage about this city/person/event"
+- **Display controller** — Python + VLC, triggered via local HTTP from the agent
+
+The visual similarity groundwork already done at Sound and Vision through the
+VisXP project — shot-level embeddings, similarity search pipeline — makes the
+CLIP-based implementation significantly easier than starting from scratch.
+
+### Technical architecture
+
+```
+Furhat (microphone + speaker + animated face)
+    ↓ speech
+Whisper ASR (server-side, Dutch-optimised)
+    ↓ text query
+Media Suite Agent
+    ├── search_archive(query)     → items + timecodes from Elasticsearch
+    ├── play_video(id, timecode)  → sends to display controller
+    ├── ask_about_video(id, q)    → ASR transcript + vision model
+    └── find_related(entity)      → follow-up search by name/place/event
+    ↓
+Display Controller (VLC via HTTP)
+    ↓ fullscreen video on screen behind Furhat
+```
+
+### Incremental build milestones
+
+**Weekend 1:** Search and play loop. Furhat listens → Whisper transcribes →
+agent searches → video plays. No QA yet. Already a compelling demo.
+
+**Weekend 2:** Video content QA. While video plays, user asks "what is this
+about?" → agent retrieves ASR transcript at current timecode → Furhat summarises.
+
+**Weekend 3:** Entity extraction and follow-up. "It mentions Zeeland" → NER
+over transcript → new search → related footage plays. Conversational loop works.
+
+**Weekend 4+:** Visual QA. Frame extraction via ffmpeg, CLIP similarity, vision
+model for "what do you see in this scene?" questions.
+
+### Research dimensions
+
+The system is not only a demo — it is a research platform. The combination
+of a social robot, a deep archival knowledge base, and real historical video
+creates research opportunities that most HRI studies lack: a genuine, rich,
+historically significant knowledge domain rather than a toy scenario.
+
+#### Research questions for adult users
+
+- Does access to archival video change the questions people ask compared to
+  text-only access? (information-seeking behaviour)
+- How does the robot's spoken response interact with simultaneous video —
+  do people attend to audio or video when both are present?
+- What repair strategies do users employ when the system misunderstands?
+  (dialogue breakdown and recovery)
+- How do users calibrate their expectations of the system over a conversation —
+  do they develop an accurate mental model of what it knows?
+
+#### Research questions for children
+
+- What vocabulary do children use to query archival content, and how does it
+  differ from adult vocabulary? (directly relevant to designing child-facing
+  interfaces)
+- Does the embodied robot interface lower the threshold for engagement with
+  historical content compared to a screen-only interface?
+- How do children handle uncertainty in robot responses — do they accept,
+  challenge, or ignore incorrect information?
+
+#### HRI methodology questions
+
+- Is the Wizard of Oz paradigm still useful when the underlying AI is
+  genuinely capable? Or does partial autonomy create new methodological
+  challenges?
+- How do users calibrate trust in a system that is sometimes right and
+  sometimes wrong?
+
+### Related research context
+
+**Furhat as research platform.** Furhat has been used extensively for HRI
+research at KTH Stockholm and elsewhere: museum guide robots, interview robots,
+social skill training, second language learning. The robot's design —
+projectable face, directional audio, gaze control — was built for HRI research.
+
+**Situated dialogue and grounded language interaction.** The question of how
+what a person sees affects what they ask, and how a system should respond to
+shared visual context, is an active research area. Key references: BabyTalk
+project (Edinburgh) on systems describing shared visual scenes; MMDialog dataset;
+Das et al. (2017) on visual dialogue as a multi-turn conversational task.
+
+**Archive + robot interaction.** This specific combination — social robot as
+interface to a deep audiovisual archive, with dynamic video driven by
+conversation — is genuinely novel as a research object. Most Furhat deployments
+use shallow knowledge domains. The Media Suite provides what most HRI research
+lacks: a real, historically significant knowledge base.
+
+**Children and heritage content.** The CHESS project (EU, 2013–2016) explored
+personalised museum experiences including child audiences, but without social
+robots and without dynamic video. Children interacting with a social robot and
+archival footage is essentially unstudied.
+
+### Relevant research groups for collaboration
+
+- **Furhat Robotics / KTH** — research collaboration programme exists
+- **CWI Amsterdam** — multimedia interaction, long history with NISV on AV research
+- **TU Delft / TU Eindhoven** — active HRI groups, social robots in public spaces
+- **UvA / CLARIAH community** — Media Suite research community; HRI is a natural extension
+- **TNO** — human-AI teaming in information-rich environments
+
+### Sound and Vision assets that enable this
+
+- Furhat robot (available at NISV)
+- Media Suite agent infrastructure (in development)
+- ASR pipeline with timecoded transcripts (operational)
+- Visual similarity groundwork from VisXP project (prototype stage; CLIP-based production implementation to follow)
+- Educational programme infrastructure and school visit network (for child studies)
+- Open Beelden as the ideal first dataset: open, CC-licensed, visually rich,
+  historically significant (1953 floods coverage is particularly strong)
+
+### The most tractable first study
+
+A think-aloud study with 10–15 adult researchers using the system to explore
+the 1953 floods collection. Questions: what do they ask, what do they not ask,
+where does the system fail, and how do they respond to failure. Small qualitative
+study, doable without a large ethics review, produces concrete findings about
+information-seeking behaviour with archival AI systems. No comparable study
+has been published.
+
+The children study is more ambitious but potentially higher impact — and Sound
+and Vision's existing educational infrastructure makes recruitment
+straightforward.
+
+### Suitable as a student project
+
+This platform is well suited to a master's thesis or research internship project,
+particularly combining:
+
+- **Computer Science / AI** — building the technical integration (Furhat SDK,
+  agent connection, display controller, video QA)
+- **Human-Computer Interaction** — designing and running the user studies
+- **Media Studies / Digital Humanities** — interpreting findings in the context
+  of archival access and historical engagement
+
+A joint supervision between Sound and Vision and a university HRI or HCI group
+would be the natural structure. The student arrives at a working technical
+foundation; the research contribution is the study design, execution, and
+analysis.
+
+### Status
+
+Concept phase. No implementation started. Depends on the Open Beelden dataset
+agent (Phase 2 of the main roadmap) being sufficiently stable to serve as the
+knowledge base for the demo. Estimated earliest realistic start: Q4 2026.
+
 ## Revision history
 
 | Version | Date | Changes |
 |---|---|---|
+| 0.1.6 | May 2026 | Added Furhat Research Platform appendix — concept documentation for human-archive interaction research initiative. |
 | 0.1.5 | May 2026 | Sections 7, 8, 9: precision and consistency revision — orientation reminder updated; prototype/personal-project language clarified for external readers throughout Phases 1, 4, and final note; ROADMAP.md reference softened; MCP/federation claim narrowed; "What the team needs to do" structure fixed. Issue [#6](https://github.com/roelandordelman/mediasuite-whitepaper/issues/6). |
 | 0.1.4 | May 2026 | Visual similarity: VisXP framing updated throughout to acknowledge prototype is superseded, CLIP-based embeddings positioned as path forward. SSHOC-NL Knowledge Graph added to Section 7 and Phase 5. Issues [#1](https://github.com/roelandordelman/mediasuite-whitepaper/issues/1), [#2](https://github.com/roelandordelman/mediasuite-whitepaper/issues/2). |
 | 0.1.3 | May 2026 | Section 7: removed internal filenames and tool identifiers; fixed table column header; added fragment citation subsection. Issue [#4](https://github.com/roelandordelman/mediasuite-whitepaper/issues/4). |
